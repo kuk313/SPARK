@@ -1883,17 +1883,31 @@ async function googleLoginFirst() {
         setTimeout(() => ob.classList.remove('hidden'), 10);
       }, 400);
     } else {
-      // 기존 유저 → 열람권 불러오고 바로 앱으로
+      // 기존 유저 → 열람권 불러오고 바로 메인 앱으로
       const data = userSnap.data();
       tickets = data.tickets ?? 3;
       updateTicketBadge();
+
+      // Firestore에서 프로필 정보 불러와서 완료 카드 표시
+      const profileSnap = await window.fbGetDoc(window.fbDoc(window.db, 'profiles', user.uid));
+      if (profileSnap.exists()) {
+        const p = profileSnap.data();
+        document.getElementById('myp-avatar').textContent = p.name?.charAt(0) || '✨';
+        document.getElementById('myp-preview-name').textContent = `${p.name} · ${p.age}세`;
+        document.getElementById('myp-preview-bio').textContent = p.animal ? `${p.animal}${p.bio ? ' · ' + p.bio : ''}` : p.bio || '';
+        const tagsEl = document.getElementById('myp-preview-tags');
+        tagsEl.innerHTML = (p.tags || []).map(t => `<span class="ptag-dark">${t}</span>`).join('');
+        document.getElementById('myp-form-panel').style.display = 'none';
+        document.getElementById('myp-done-panel').style.display = 'flex';
+      }
+
       showToast(`👋 돌아오셨군요!`);
+
+      // 바로 메인 앱으로
       document.getElementById('login-screen').classList.add('hidden');
       setTimeout(() => {
         document.getElementById('login-screen').style.display = 'none';
-        const reg = document.getElementById('reg-screen');
-        reg.style.display = 'flex';
-        setTimeout(() => reg.classList.remove('hidden'), 10);
+        initExplore(); // 로그인 완료 후 반대 성별 프로필 불러오기
       }, 400);
     }
   } catch(e) {
@@ -1976,14 +1990,13 @@ function enterApp() {
   const age = parseInt(document.getElementById('ob-age').value);
   if (!selectedGender) { document.getElementById('ob-warn').textContent = '성별을 선택해주세요.'; return; }
   if (!age || age < 20) return;
-  // 온보딩 숨기고 프로필 등록 화면 표시
   document.getElementById('onboarding').classList.add('hidden');
   setTimeout(() => {
     document.getElementById('onboarding').style.display = 'none';
     const reg = document.getElementById('reg-screen');
     reg.style.display = 'flex';
     reg.style.flexDirection = 'column';
-
+    initExplore(); // 로그인 완료 후 프로필 불러오기
     setTimeout(() => reg.classList.remove('hidden'), 10);
   }, 400);
 }
@@ -2175,7 +2188,7 @@ function showToast(msg) {
 // 초기화
 document.addEventListener('DOMContentLoaded', () => {
   startHearts();
-  initExplore();
+  // initExplore는 로그인 완료 후 enterApp()에서 호출
 });
 </script>
 
