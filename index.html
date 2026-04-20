@@ -65,7 +65,7 @@ animation: heart-float 8s ease-in-out infinite;
 }
 
 /* 앱 내부 콘텐츠가 하트 위에 오도록 */
-.topbar, .tabbar, .screen, .onboarding, .reg-screen { position: relative; z-index: 1; }
+.topbar, .tabbar, .screen { position: relative; z-index: 1; }
 
 /* ── 상단 바 ── */
 .topbar {
@@ -2038,7 +2038,7 @@ function checkAge() {
   }
   warn.textContent = '';
   input.classList.remove('invalid');
-  btn.classList.toggle('disabled', !selectedGender);
+  if (btn) btn.classList.toggle('disabled', !selectedGender);
 }
 
 function enterApp() {
@@ -2061,10 +2061,12 @@ const regAgreeState = { 1: false, 2: false, 3: false };
 
 function updateRegAgreeUI() {
   [1,2,3].forEach(n => {
-    document.getElementById('reg-check-'+n).classList.toggle('checked', regAgreeState[n]);
+    const el = document.getElementById('reg-check-'+n);
+    if (el) el.classList.toggle('checked', regAgreeState[n]);
   });
   const allChecked = regAgreeState[1] && regAgreeState[2] && regAgreeState[3];
-  document.getElementById('reg-check-all').classList.toggle('checked', allChecked);
+  const checkAll = document.getElementById('reg-check-all');
+  if (checkAll) checkAll.classList.toggle('checked', allChecked);
   checkRegForm();
 }
 
@@ -2126,50 +2128,63 @@ function closeRegScreen() {
   setTimeout(() => { reg.style.display = 'none'; }, 400);
 }
 
-// 초기 버튼 비활성화
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('ob-btn').classList.add('disabled');
-  document.getElementById('reg-submit-btn').classList.add('disabled');
-  document.getElementById('reg-screen').classList.add('hidden');
 
-  // 두 번째 페이지 약관 이벤트
-  const rr = document.querySelectorAll('#reg-screen .agree-row');
-  rr[0].addEventListener('click', () => {
-    const allOn = regAgreeState[1] && regAgreeState[2] && regAgreeState[3];
-    regAgreeState[1] = regAgreeState[2] = regAgreeState[3] = !allOn;
-    updateRegAgreeUI();
-  });
-  rr[1].addEventListener('click', () => { regAgreeState[1] = !regAgreeState[1]; updateRegAgreeUI(); });
-  rr[2].addEventListener('click', () => { regAgreeState[2] = !regAgreeState[2]; updateRegAgreeUI(); });
-  rr[3].addEventListener('click', () => { regAgreeState[3] = !regAgreeState[3]; updateRegAgreeUI(); });
-});
 
 // ── 약관 동의 ──
 const agreeState = { 1: false, 2: false, 3: false };
 
 function updateAgreeUI() {
   [1,2,3].forEach(n => {
-    document.getElementById('check-'+n).classList.toggle('checked', agreeState[n]);
+    const el = document.getElementById('check-'+n);
+    if (el) el.classList.toggle('checked', agreeState[n]);
   });
   const allRequired = agreeState[1] && agreeState[2];
-  const allChecked = agreeState[1] && agreeState[2] && agreeState[3];
-  document.getElementById('check-all').classList.toggle('checked', allChecked);
+  const allChecked  = agreeState[1] && agreeState[2] && agreeState[3];
+  const checkAll = document.getElementById('check-all');
+  if (checkAll) checkAll.classList.toggle('checked', allChecked);
   const btn = document.getElementById('save-btn');
-  btn.classList.toggle('disabled', !allRequired);
+  if (btn) btn.classList.toggle('disabled', !allRequired);
 }
 
-// 행 클릭 이벤트 연결 (DOM 로드 후)
+// ── 초기화 (DOMContentLoaded 하나로 통합) ──
 document.addEventListener('DOMContentLoaded', () => {
-  const rows = document.querySelectorAll('.agree-row');
-  rows[0].addEventListener('click', () => {
-    const allOn = agreeState[1] && agreeState[2] && agreeState[3];
-    agreeState[1] = agreeState[2] = agreeState[3] = !allOn;
-    updateAgreeUI();
-  });
-  rows[1].addEventListener('click', () => { agreeState[1] = !agreeState[1]; updateAgreeUI(); });
-  rows[2].addEventListener('click', () => { agreeState[2] = !agreeState[2]; updateAgreeUI(); });
-  rows[3].addEventListener('click', () => { agreeState[3] = !agreeState[3]; updateAgreeUI(); });
+  // 버튼 초기 비활성화
+  const obBtn = document.getElementById('ob-btn');
+  if (obBtn) obBtn.classList.add('disabled');
+  const regBtn = document.getElementById('reg-submit-btn');
+  if (regBtn) regBtn.classList.add('disabled');
+  const regScreen = document.getElementById('reg-screen');
+  if (regScreen) regScreen.classList.add('hidden');
+
+  // reg-screen 약관 이벤트 (#reg-screen .agree-row 정확히 선택)
+  const rr = document.querySelectorAll('#reg-screen .agree-row');
+  if (rr.length >= 4) {
+    rr[0].addEventListener('click', () => {
+      const allOn = regAgreeState[1] && regAgreeState[2] && regAgreeState[3];
+      regAgreeState[1] = regAgreeState[2] = regAgreeState[3] = !allOn;
+      updateRegAgreeUI();
+    });
+    rr[1].addEventListener('click', () => { regAgreeState[1] = !regAgreeState[1]; updateRegAgreeUI(); });
+    rr[2].addEventListener('click', () => { regAgreeState[2] = !regAgreeState[2]; updateRegAgreeUI(); });
+    rr[3].addEventListener('click', () => { regAgreeState[3] = !regAgreeState[3]; updateRegAgreeUI(); });
+  }
+
+  // myprofile 약관 이벤트 (#screen-myprofile .agree-row 정확히 선택)
+  const rows = document.querySelectorAll('#screen-myprofile .agree-row');
+  if (rows.length >= 4) {
+    rows[0].addEventListener('click', () => {
+      const allOn = agreeState[1] && agreeState[2] && agreeState[3];
+      agreeState[1] = agreeState[2] = agreeState[3] = !allOn;
+      updateAgreeUI();
+    });
+    rows[1].addEventListener('click', () => { agreeState[1] = !agreeState[1]; updateAgreeUI(); });
+    rows[2].addEventListener('click', () => { agreeState[2] = !agreeState[2]; updateAgreeUI(); });
+    rows[3].addEventListener('click', () => { agreeState[3] = !agreeState[3]; updateAgreeUI(); });
+  }
+
   updateAgreeUI();
+  updateRegAgreeUI();
+  startHearts();
 });
 
 const termsContent = {
@@ -2293,10 +2308,7 @@ window._handleAuthReady = async function(user) {
   }
 };
 
-// 초기화
-document.addEventListener('DOMContentLoaded', () => {
-  startHearts();
-});
+
 </script>
 
 <!-- ── Firebase ── -->
