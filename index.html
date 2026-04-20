@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -23,1035 +24,1035 @@
     --radius-sm: 12px;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+- { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
+body {
+font-family: ‘Noto Sans KR’, sans-serif;
+background: var(–bg);
+color: var(–text);
+min-height: 100vh;
+}
 
-  /* ── 앱 껍데기 (장식용) ── */
-  .app {
-    width: 100%;
-    max-width: 480px;
-    min-height: 100vh;
-    background: var(--bg);
-    position: relative;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-  }
+/* ── 앱 껍데기 (장식용) ── */
+.app {
+width: 100%;
+max-width: 480px;
+min-height: 100vh;
+background: var(–bg);
+position: relative;
+margin: 0 auto;
+display: flex;
+flex-direction: column;
+}
 
-  /* ── 배경 하트 ── */
-  .bg-hearts {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .bg-heart {
-    position: absolute;
-    opacity: 0.28;
-    animation: heart-float 8s ease-in-out infinite;
-  }
-  @keyframes heart-float {
-    0%   { transform: translateY(0px) rotate(var(--rot)); }
-    50%  { transform: translateY(-10px) rotate(var(--rot)); }
-    100% { transform: translateY(0px) rotate(var(--rot)); }
-  }
+/* ── 배경 하트 ── */
+.bg-hearts {
+position: fixed;
+inset: 0;
+pointer-events: none;
+z-index: 0;
+overflow: hidden;
+}
+.bg-heart {
+position: absolute;
+opacity: 0.28;
+animation: heart-float 8s ease-in-out infinite;
+}
+@keyframes heart-float {
+0%   { transform: translateY(0px) rotate(var(–rot)); }
+50%  { transform: translateY(-10px) rotate(var(–rot)); }
+100% { transform: translateY(0px) rotate(var(–rot)); }
+}
 
-  /* 앱 내부 콘텐츠가 하트 위에 오도록 */
-  .topbar, .tabbar, .screen, .onboarding, .reg-screen { position: relative; z-index: 1; }
+/* 앱 내부 콘텐츠가 하트 위에 오도록 */
+.topbar, .tabbar, .screen, .onboarding, .reg-screen { position: relative; z-index: 1; }
 
-  /* ── 상단 바 ── */
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: calc(env(safe-area-inset-top) + 16px) 24px 16px;
-    background: linear-gradient(135deg, #1E40AF, #7C3AED);
-    position: relative; z-index: 10;
-  }
-  .logo {
-    font-family: 'Gmarket Sans', sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-    color: white;
-  }
-  .ticket-badge {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.2);
-    border: 1.5px solid rgba(255,255,255,0.35);
-    border-radius: 99px;
-    padding: 6px 14px;
-    font-size: 13px;
-    font-weight: 700;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.15s;
-    backdrop-filter: blur(8px);
-  }
-  .ticket-badge:hover { transform: scale(1.05); background: rgba(255,255,255,0.3); }
-  .ticket-icon { font-size: 16px; }
+/* ── 상단 바 ── */
+.topbar {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: calc(env(safe-area-inset-top) + 16px) 24px 16px;
+background: linear-gradient(135deg, #1E40AF, #7C3AED);
+position: relative; z-index: 10;
+}
+.logo {
+font-family: ‘Gmarket Sans’, sans-serif;
+font-weight: 700;
+font-size: 22px;
+color: white;
+}
+.ticket-badge {
+display: flex;
+align-items: center;
+gap: 6px;
+background: rgba(255,255,255,0.2);
+border: 1.5px solid rgba(255,255,255,0.35);
+border-radius: 99px;
+padding: 6px 14px;
+font-size: 13px;
+font-weight: 700;
+color: white;
+cursor: pointer;
+transition: transform 0.15s;
+backdrop-filter: blur(8px);
+}
+.ticket-badge:hover { transform: scale(1.05); background: rgba(255,255,255,0.3); }
+.ticket-icon { font-size: 16px; }
 
-  /* ── 탭 바 (하단 고정) ── */
-  .tabbar {
-    display: flex;
-    padding: 4px 16px calc(env(safe-area-inset-bottom) + 4px);
-    gap: 4px;
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 480px;
-    background: rgba(255,255,255,0.96);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 0.5px solid rgba(37,99,235,0.12);
-    z-index: 100;
-  }
-  .tab {
-    flex: 1;
-    padding: 6px 0 4px;
-    text-align: center;
-    font-size: 10px;
-    color: var(--muted);
-    cursor: pointer;
-    border-radius: var(--radius-sm);
-    transition: all 0.2s;
-    font-weight: 500;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-  }
-  .tab::before {
-    font-size: 20px;
-    line-height: 1;
-  }
-  .tab:nth-child(1)::before { content: '🔍'; }
-  .tab:nth-child(2)::before { content: '🎫'; }
-  .tab:nth-child(3)::before { content: '👤'; }
-  .tab.active {
-    color: #7C3AED;
-    font-weight: 700;
-  }
-  .tab.active::before {
-    transform: scale(1.15);
-  }
+/* ── 탭 바 (하단 고정) ── */
+.tabbar {
+display: flex;
+padding: 4px 16px calc(env(safe-area-inset-bottom) + 4px);
+gap: 4px;
+position: fixed;
+bottom: 0;
+left: 50%;
+transform: translateX(-50%);
+width: 100%;
+max-width: 480px;
+background: rgba(255,255,255,0.96);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+border-top: 0.5px solid rgba(37,99,235,0.12);
+z-index: 100;
+}
+.tab {
+flex: 1;
+padding: 6px 0 4px;
+text-align: center;
+font-size: 10px;
+color: var(–muted);
+cursor: pointer;
+border-radius: var(–radius-sm);
+transition: all 0.2s;
+font-weight: 500;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 2px;
+}
+.tab::before {
+font-size: 20px;
+line-height: 1;
+}
+.tab:nth-child(1)::before { content: ‘🔍’; }
+.tab:nth-child(2)::before { content: ‘🎫’; }
+.tab:nth-child(3)::before { content: ‘👤’; }
+.tab.active {
+color: #7C3AED;
+font-weight: 700;
+}
+.tab.active::before {
+transform: scale(1.15);
+}
 
-  /* 하단 탭바 높이만큼 콘텐츠 여백 */
-  .app { padding-bottom: calc(env(safe-area-inset-bottom) + 50px); }
+/* 하단 탭바 높이만큼 콘텐츠 여백 */
+.app { padding-bottom: calc(env(safe-area-inset-bottom) + 50px); }
 
-  /* ── 화면 공통 ── */
-  .screen { display: none; flex: 1; flex-direction: column; padding: 20px 20px 24px; }
-  .screen.active { display: flex; }
+/* ── 화면 공통 ── */
+.screen { display: none; flex: 1; flex-direction: column; padding: 20px 20px 24px; }
+.screen.active { display: flex; }
 
+.section-title {
+font-family: ‘Gmarket Sans’, sans-serif;
+font-size: 20px;
+font-weight: 700;
+color: var(–dark);
+margin-bottom: 6px;
+}
+.section-sub {
+font-size: 13px;
+color: var(–muted);
+margin-bottom: 20px;
+line-height: 1.6;
+}
 
-  .section-title {
-    font-family: 'Gmarket Sans', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 6px;
-  }
-  .section-sub {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 20px;
-    line-height: 1.6;
-  }
+/* ────────────────
+화면 1: 해시태그
+──────────────── */
+.tag-group { margin-bottom: 18px; }
+.tag-group-title {
+font-size: 12px;
+font-weight: 700;
+color: var(–muted);
+letter-spacing: 0.08em;
+text-transform: uppercase;
+margin-bottom: 10px;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag {
+padding: 8px 16px;
+border-radius: 99px;
+border: 1.5px solid #BFDBFE;
+font-size: 13px;
+color: var(–muted);
+cursor: pointer;
+transition: all 0.18s;
+user-select: none;
+background: white;
+}
+.tag.selected {
+background: linear-gradient(135deg,#2563EB,#7C3AED);
+border-color: #7C3AED;
+color: white;
+font-weight: 500;
+transform: scale(1.04);
+}
 
-  /* ────────────────
-     화면 1: 해시태그
-  ──────────────── */
-  .tag-group { margin-bottom: 18px; }
-  .tag-group-title {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-  .tag {
-    padding: 8px 16px;
-    border-radius: 99px;
-    border: 1.5px solid #BFDBFE;
-    font-size: 13px;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.18s;
-    user-select: none;
-    background: white;
-  }
-  .tag.selected {
-    background: linear-gradient(135deg,#2563EB,#7C3AED);
-    border-color: #7C3AED;
-    color: white;
-    font-weight: 500;
-    transform: scale(1.04);
-  }
+.cta-btn {
+width: 100%;
+padding: 16px;
+border-radius: var(–radius);
+border: none;
+background: linear-gradient(135deg, #2563EB, #3B82F6);
+color: white;
+font-size: 16px;
+font-weight: 700;
+font-family: ‘Gmarket Sans’, sans-serif;
+cursor: pointer;
+margin-top: auto;
+transition: transform 0.15s, box-shadow 0.15s;
+box-shadow: 0 8px 24px rgba(37,99,235,0.35);
+}
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(109,40,217,0.4); }
+.cta-btn:active { transform: scale(0.98); }
 
-  .cta-btn {
-    width: 100%;
-    padding: 16px;
-    border-radius: var(--radius);
-    border: none;
-    background: linear-gradient(135deg, #2563EB, #3B82F6);
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-    font-family: 'Gmarket Sans', sans-serif;
-    cursor: pointer;
-    margin-top: auto;
-    transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 8px 24px rgba(37,99,235,0.35);
-  }
-  .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(109,40,217,0.4); }
-  .cta-btn:active { transform: scale(0.98); }
+/* ────────────────
+화면 2: 프로필 카드
+──────────────── */
+.profile-wrap {
+position: relative;
+flex: 1;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 20px;
+}
 
-  /* ────────────────
-     화면 2: 프로필 카드
-  ──────────────── */
-  .profile-wrap {
-    position: relative;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-  }
+.card-stack {
+position: relative;
+width: 320px;
+height: 440px;
+}
+.profile-card {
+position: absolute;
+width: 100%;
+height: 100%;
+border-radius: 28px;
+overflow: hidden;
+box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+cursor: grab;
+transition: transform 0.08s;
+user-select: none;
+}
+.profile-card:active { cursor: grabbing; }
+.profile-card .overlay {
+position: absolute;
+bottom: 0; left: 0; right: 0;
+background: linear-gradient(transparent, rgba(26,16,32,0.88));
+padding: 32px 22px 22px;
+}
+.profile-card .name {
+font-family: ‘Gmarket Sans’, sans-serif;
+font-size: 24px;
+font-weight: 700;
+color: white;
+margin-bottom: 6px;
+}
+.profile-card .profile-tags {
+display: flex;
+flex-wrap: wrap;
+gap: 6px;
+}
+.profile-card .ptag {
+background: rgba(255,255,255,0.2);
+backdrop-filter: blur(4px);
+border-radius: 99px;
+padding: 4px 10px;
+font-size: 12px;
+color: white;
+}
 
-  .card-stack {
-    position: relative;
-    width: 320px;
-    height: 440px;
-  }
-  .profile-card {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 28px;
-    overflow: hidden;
-    box-shadow: 0 16px 48px rgba(0,0,0,0.15);
-    cursor: grab;
-    transition: transform 0.08s;
-    user-select: none;
-  }
-  .profile-card:active { cursor: grabbing; }
-  .profile-card .overlay {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    background: linear-gradient(transparent, rgba(26,16,32,0.88));
-    padding: 32px 22px 22px;
-  }
-  .profile-card .name {
-    font-family: 'Gmarket Sans', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 6px;
-  }
-  .profile-card .profile-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .profile-card .ptag {
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(4px);
-    border-radius: 99px;
-    padding: 4px 10px;
-    font-size: 12px;
-    color: white;
-  }
+/* 스와이프 시 판정 레이블 */
+.swipe-label {
+position: absolute;
+top: 24px;
+font-family: ‘Gmarket Sans’, sans-serif;
+font-size: 22px;
+font-weight: 700;
+padding: 6px 18px;
+border-radius: 10px;
+border: 3px solid;
+opacity: 0;
+transition: opacity 0.1s;
+pointer-events: none;
+z-index: 10;
+}
+.swipe-label.like { left: 20px; color: #2ECC71; border-color: #2ECC71; transform: rotate(-15deg); }
+.swipe-label.nope { right: 20px; color: var(–pink); border-color: var(–pink); transform: rotate(15deg); }
 
-  /* 스와이프 시 판정 레이블 */
-  .swipe-label {
-    position: absolute;
-    top: 24px;
-    font-family: 'Gmarket Sans', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    padding: 6px 18px;
-    border-radius: 10px;
-    border: 3px solid;
-    opacity: 0;
-    transition: opacity 0.1s;
-    pointer-events: none;
-    z-index: 10;
-  }
-  .swipe-label.like { left: 20px; color: #2ECC71; border-color: #2ECC71; transform: rotate(-15deg); }
-  .swipe-label.nope { right: 20px; color: var(--pink); border-color: var(--pink); transform: rotate(15deg); }
+.action-btns {
+display: flex;
+gap: 24px;
+align-items: center;
+}
+.action-btn {
+width: 60px; height: 60px;
+border-radius: 50%;
+border: none;
+cursor: pointer;
+font-size: 24px;
+display: flex; align-items: center; justify-content: center;
+transition: transform 0.15s, box-shadow 0.15s;
+box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+.action-btn:hover { transform: scale(1.1); }
+.action-btn.nope { background: white; }
+.action-btn.like { background: linear-gradient(135deg, #2563EB, #3B82F6); width: 72px; height: 72px; font-size: 28px; }
 
-  .action-btns {
-    display: flex;
-    gap: 24px;
-    align-items: center;
-  }
-  .action-btn {
-    width: 60px; height: 60px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    font-size: 24px;
-    display: flex; align-items: center; justify-content: center;
-    transition: transform 0.15s, box-shadow 0.15s;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-  }
-  .action-btn:hover { transform: scale(1.1); }
-  .action-btn.nope { background: white; }
-  .action-btn.like { background: linear-gradient(135deg, #2563EB, #3B82F6); width: 72px; height: 72px; font-size: 28px; }
+/* ────────────────
+화면 3: 열람권 사용
+──────────────── */
+.unlock-card {
+background: white;
+border-radius: 28px;
+overflow: hidden;
+box-shadow: 0 12px 40px rgba(37,99,235,0.12);
+margin-bottom: 20px;
+}
+.unlock-info {
+padding: 20px;
+}
+.unlock-name {
+font-family: ‘Gmarket Sans’, sans-serif;
+font-size: 20px;
+font-weight: 700;
+margin-bottom: 8px;
+}
+.unlock-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.unlock-tag {
+background: var(–pink-pale);
+color: var(–pink);
+border-radius: 99px;
+padding: 4px 12px;
+font-size: 12px;
+font-weight: 500;
+}
+.insta-box {
+background: var(–pink-pale);
+border-radius: var(–radius-sm);
+padding: 16px;
+display: flex;
+align-items: center;
+gap: 10px;
+filter: blur(4px);
+transition: filter 0.5s;
+user-select: none;
+}
+.insta-box.revealed { filter: blur(0); user-select: text; }
+.insta-icon { font-size: 22px; }
+.insta-id { font-size: 16px; font-weight: 700; color: var(–pink); }
 
-  /* ────────────────
-     화면 3: 열람권 사용
-  ──────────────── */
-  .unlock-card {
-    background: white;
-    border-radius: 28px;
-    overflow: hidden;
-    box-shadow: 0 12px 40px rgba(37,99,235,0.12);
-    margin-bottom: 20px;
-  }
-  .unlock-info {
-    padding: 20px;
-  }
-  .unlock-name {
-    font-family: 'Gmarket Sans', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .unlock-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-  .unlock-tag {
-    background: var(--pink-pale);
-    color: var(--pink);
-    border-radius: 99px;
-    padding: 4px 12px;
-    font-size: 12px;
-    font-weight: 500;
-  }
-  .insta-box {
-    background: var(--pink-pale);
-    border-radius: var(--radius-sm);
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    filter: blur(4px);
-    transition: filter 0.5s;
-    user-select: none;
-  }
-  .insta-box.revealed { filter: blur(0); user-select: text; }
-  .insta-icon { font-size: 22px; }
-  .insta-id { font-size: 16px; font-weight: 700; color: var(--pink); }
+.ticket-cost {
+background: white;
+border-radius: var(–radius);
+padding: 16px 20px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 16px;
+border: 1.5px solid #DBEAFE;
+}
+.ticket-cost-label { font-size: 14px; color: var(–muted); }
+.ticket-cost-val {
+display: flex;
+align-items: center;
+gap: 6px;
+font-weight: 700;
+font-size: 16px;
+color: var(–dark);
+}
 
-  .ticket-cost {
-    background: white;
-    border-radius: var(--radius);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    border: 1.5px solid #DBEAFE;
-  }
-  .ticket-cost-label { font-size: 14px; color: var(--muted); }
-  .ticket-cost-val {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 700;
-    font-size: 16px;
-    color: var(--dark);
-  }
+/* ────────────────
+화면 4: 충전
+──────────────── */
+.charge-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.charge-card {
+background: white;
+border-radius: var(–radius);
+padding: 18px 20px;
+border: 2px solid #DBEAFE;
+cursor: pointer;
+transition: all 0.2s;
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+.charge-card:hover, .charge-card.selected { border-color: #7C3AED; background: #F5F3FF; }
+.charge-card-left { display: flex; align-items: center; gap: 14px; }
+.charge-icon { font-size: 28px; }
+.charge-name { font-family: ‘Gmarket Sans’, sans-serif; font-size: 16px; font-weight: 700; }
+.charge-tickets { font-size: 12px; color: var(–muted); margin-top: 2px; }
+.charge-price { font-size: 18px; font-weight: 700; color: var(–pink); }
 
-  /* ────────────────
-     화면 4: 충전
-  ──────────────── */
-  .charge-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
-  .charge-card {
-    background: white;
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    border: 2px solid #DBEAFE;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .charge-card:hover, .charge-card.selected { border-color: #7C3AED; background: #F5F3FF; }
-  .charge-card-left { display: flex; align-items: center; gap: 14px; }
-  .charge-icon { font-size: 28px; }
-  .charge-name { font-family: 'Gmarket Sans', sans-serif; font-size: 16px; font-weight: 700; }
-  .charge-tickets { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .charge-price { font-size: 18px; font-weight: 700; color: var(--pink); }
+.badge-best {
+background: var(–pink);
+color: white;
+font-size: 10px;
+font-weight: 700;
+padding: 2px 8px;
+border-radius: 99px;
+margin-left: 8px;
+}
 
-  .badge-best {
-    background: var(--pink);
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 99px;
-    margin-left: 8px;
-  }
+/* ────────────────
+화면 5: 내 프로필
+──────────────── */
 
-  /* ────────────────
-     화면 5: 내 프로필
-  ──────────────── */
+.form-field {
+margin-bottom: 16px;
+}
+.form-label { font-size: 12px; font-weight: 700; color: var(–muted); letter-spacing: 0.06em; margin-bottom: 6px; display: block; text-transform: uppercase; }
+.form-input, .form-select {
+width: 100%;
+padding: 14px 16px;
+border-radius: var(–radius-sm);
+border: 1.5px solid #BFDBFE;
+font-size: 14px;
+font-family: ‘Noto Sans KR’, sans-serif;
+color: var(–text);
+background: white;
+outline: none;
+transition: border-color 0.2s;
+}
+.form-input:focus, .form-select:focus { border-color: var(–pink); }
 
-  .form-field {
-    margin-bottom: 16px;
-  }
-  .form-label { font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: 0.06em; margin-bottom: 6px; display: block; text-transform: uppercase; }
-  .form-input, .form-select {
-    width: 100%;
-    padding: 14px 16px;
-    border-radius: var(--radius-sm);
-    border: 1.5px solid #BFDBFE;
-    font-size: 14px;
-    font-family: 'Noto Sans KR', sans-serif;
-    color: var(--text);
-    background: white;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .form-input:focus, .form-select:focus { border-color: var(--pink); }
+.tag-select { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-opt {
+padding: 7px 14px;
+border-radius: 99px;
+border: 1.5px solid #BFDBFE;
+font-size: 12px;
+color: var(–muted);
+cursor: pointer;
+background: white;
+transition: all 0.15s;
+}
+.tag-opt.on { background: linear-gradient(135deg,#2563EB,#7C3AED); border-color: #7C3AED; color: white; }
 
-  .tag-select { display: flex; flex-wrap: wrap; gap: 8px; }
-  .tag-opt {
-    padding: 7px 14px;
-    border-radius: 99px;
-    border: 1.5px solid #BFDBFE;
-    font-size: 12px;
-    color: var(--muted);
-    cursor: pointer;
-    background: white;
-    transition: all 0.15s;
-  }
-  .tag-opt.on { background: linear-gradient(135deg,#2563EB,#7C3AED); border-color: #7C3AED; color: white; }
+/* ── 온보딩 오버레이 ── */
+.onboarding {
+position: fixed;
+inset: 0;
+max-width: 480px;
+margin: 0 auto;
+background: linear-gradient(160deg, #1E40AF 0%, #2563EB 40%, #7C3AED 100%);
+z-index: 200;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: flex-end;
+padding: 0 0 70px;
+overflow: hidden;
+transition: opacity 0.5s, transform 0.5s;
+}
+.onboarding.hidden {
+opacity: 0;
+transform: translateY(30px);
+pointer-events: none;
+}
 
-  /* ── 온보딩 오버레이 ── */
-  .onboarding {
-    position: fixed;
-    inset: 0;
-    max-width: 480px;
-    margin: 0 auto;
-    background: linear-gradient(160deg, #1E40AF 0%, #2563EB 40%, #7C3AED 100%);
-    z-index: 200;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 0 0 70px;
-    overflow: hidden;
-    transition: opacity 0.5s, transform 0.5s;
-  }
-  .onboarding.hidden {
-    opacity: 0;
-    transform: translateY(30px);
-    pointer-events: none;
-  }
+/* 떨어지는 하트 */
+.ob-hearts {
+position: absolute;
+inset: 0;
+pointer-events: none;
+overflow: hidden;
+}
+.ob-heart {
+position: absolute;
+top: -60px;
+font-size: 24px;
+animation: ob-fall linear infinite;
+opacity: 0;
+}
+@keyframes ob-fall {
+0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+10%  { opacity: 0.8; }
+90%  { opacity: 0.6; }
+100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
 
-  /* 떨어지는 하트 */
-  .ob-hearts {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .ob-heart {
-    position: absolute;
-    top: -60px;
-    font-size: 24px;
-    animation: ob-fall linear infinite;
-    opacity: 0;
-  }
-  @keyframes ob-fall {
-    0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10%  { opacity: 0.8; }
-    90%  { opacity: 0.6; }
-    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
-  }
+/* 상단 로고 영역 */
+.ob-top {
+position: absolute;
+top: 0; left: 0; right: 0;
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: calc(env(safe-area-inset-top) + 60px) 28px 0;
+}
+.ob-logo {
+font-family: ‘Gmarket Sans’, sans-serif;
+font-weight: 700;
+font-size: 42px;
+color: white;
+margin-bottom: 10px;
+letter-spacing: -1px;
+text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.ob-sub {
+font-size: 15px;
+color: rgba(255,255,255,0.8);
+margin-bottom: 0;
+text-align: center;
+letter-spacing: 0.05em;
+}
 
-  /* 상단 로고 영역 */
-  .ob-top {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: calc(env(safe-area-inset-top) + 60px) 28px 0;
-  }
-  .ob-logo {
-    font-family: 'Gmarket Sans', sans-serif;
-    font-weight: 700;
-    font-size: 42px;
-    color: white;
-    margin-bottom: 10px;
-    letter-spacing: -1px;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  }
-  .ob-sub {
-    font-size: 15px;
-    color: rgba(255,255,255,0.8);
-    margin-bottom: 0;
-    text-align: center;
-    letter-spacing: 0.05em;
-  }
+/* 하단 카드 */
+.ob-card {
+width: calc(100% - 32px);
+background: white;
+border-radius: 28px;
+padding: 28px 24px 24px;
+box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
+display: flex;
+flex-direction: column;
+gap: 16px;
+position: relative;
+z-index: 2;
+}
+.ob-label {
+font-size: 11px;
+font-weight: 700;
+color: #2563EB;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+margin-bottom: 8px;
+display: block;
+}
+.ob-age-wrap { width: 100%; }
+.ob-age-input {
+width: 100%;
+padding: 14px 18px;
+border-radius: var(–radius-sm);
+border: 1.5px solid #BFDBFE;
+font-size: 18px;
+font-weight: 700;
+font-family: ‘Gmarket Sans’, sans-serif;
+color: var(–dark);
+background: white;
+outline: none;
+text-align: center;
+transition: border-color 0.2s;
+}
+.ob-age-input:focus { border-color: #2563EB; }
+.ob-age-input.invalid { border-color: #E24B4A; background: #FFF5F5; }
+.ob-warn {
+font-size: 12px;
+color: #E24B4A;
+text-align: center;
+min-height: 16px;
+font-weight: 500;
+}
+.ob-notice {
+font-size: 11px;
+color: var(–muted);
+text-align: center;
+line-height: 1.6;
+}
+.report-btn {
+margin-left: auto;
+padding: 5px 10px;
+border-radius: 99px;
+border: 1.5px solid #FECACA;
+background: #FFF5F5;
+color: #EF4444;
+font-size: 11px;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.15s;
+white-space: nowrap;
+flex-shrink: 0;
+}
+.report-btn:hover { background: #FEE2E2; border-color: #EF4444; }
 
-  /* 하단 카드 */
-  .ob-card {
-    width: calc(100% - 32px);
-    background: white;
-    border-radius: 28px;
-    padding: 28px 24px 24px;
-    box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    position: relative;
-    z-index: 2;
-  }
-  .ob-label {
-    font-size: 11px;
-    font-weight: 700;
-    color: #2563EB;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    display: block;
-  }
-  .ob-age-wrap { width: 100%; }
-  .ob-age-input {
-    width: 100%;
-    padding: 14px 18px;
-    border-radius: var(--radius-sm);
-    border: 1.5px solid #BFDBFE;
-    font-size: 18px;
-    font-weight: 700;
-    font-family: 'Gmarket Sans', sans-serif;
-    color: var(--dark);
-    background: white;
-    outline: none;
-    text-align: center;
-    transition: border-color 0.2s;
-  }
-  .ob-age-input:focus { border-color: #2563EB; }
-  .ob-age-input.invalid { border-color: #E24B4A; background: #FFF5F5; }
-  .ob-warn {
-    font-size: 12px;
-    color: #E24B4A;
-    text-align: center;
-    min-height: 16px;
-    font-weight: 500;
-  }
-  .ob-notice {
-    font-size: 11px;
-    color: var(--muted);
-    text-align: center;
-    line-height: 1.6;
-  }
-  .report-btn {
-    margin-left: auto;
-    padding: 5px 10px;
-    border-radius: 99px;
-    border: 1.5px solid #FECACA;
-    background: #FFF5F5;
-    color: #EF4444;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .report-btn:hover { background: #FEE2E2; border-color: #EF4444; }
+/* 폭죽 파티클 */
+.confetti-particle {
+position: fixed;
+width: 8px; height: 8px;
+border-radius: 2px;
+pointer-events: none;
+z-index: 9999;
+animation: confetti-fall 1.2s ease-out forwards;
+}
+@keyframes confetti-fall {
+0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+100% { transform: translateY(300px) rotate(720deg); opacity: 0; }
+}
 
-  /* 폭죽 파티클 */
-  .confetti-particle {
-    position: fixed;
-    width: 8px; height: 8px;
-    border-radius: 2px;
-    pointer-events: none;
-    z-index: 9999;
-    animation: confetti-fall 1.2s ease-out forwards;
-  }
-  @keyframes confetti-fall {
-    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(300px) rotate(720deg); opacity: 0; }
-  }
+.gender-btns {
+display: flex;
+gap: 12px;
+width: 100%;
+}
+.gender-btn {
+flex: 1;
+padding: 16px 0;
+border-radius: var(–radius);
+border: 2px solid #BFDBFE;
+background: white;
+cursor: pointer;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 6px;
+transition: all 0.2s;
+font-family: ‘Noto Sans KR’, sans-serif;
+}
+.gender-btn .g-icon { font-size: 28px; }
+.gender-btn .g-label { font-size: 13px; font-weight: 700; color: var(–muted); }
+.gender-btn.selected { border-color: #2563EB; background: #EFF6FF; }
+.gender-btn.selected .g-label { color: #2563EB; }
 
-  .gender-btns {
-    display: flex;
-    gap: 12px;
-    width: 100%;
-  }
-  .gender-btn {
-    flex: 1;
-    padding: 16px 0;
-    border-radius: var(--radius);
-    border: 2px solid #BFDBFE;
-    background: white;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s;
-    font-family: 'Noto Sans KR', sans-serif;
-  }
-  .gender-btn .g-icon { font-size: 28px; }
-  .gender-btn .g-label { font-size: 13px; font-weight: 700; color: var(--muted); }
-  .gender-btn.selected { border-color: #2563EB; background: #EFF6FF; }
-  .gender-btn.selected .g-label { color: #2563EB; }
+/* ── 새 텍스트형 프로필 카드 ── */
+.exp-text-card {
+width: 100%; height: 100%;
+display: flex; flex-direction: column;
+padding: 22px 22px 16px;
+gap: 0;
+background: white;
+overflow: hidden;
+}
+.exp-text-card::-webkit-scrollbar { display: none; }
 
-  /* ── 새 텍스트형 프로필 카드 ── */
-  .exp-text-card {
-    width: 100%; height: 100%;
-    display: flex; flex-direction: column;
-    padding: 22px 22px 16px;
-    gap: 0;
-    background: white;
-    overflow: hidden;
-  }
-  .exp-text-card::-webkit-scrollbar { display: none; }
+.exp-card-top {
+display: flex; align-items: baseline; gap: 10px;
+margin-bottom: 22px;
+padding-bottom: 18px;
+border-bottom: 1.5px solid #E8EEFF;
+}
+.exp-nickname {
+font-family: ‘Gmarket Sans’, sans-serif;
+font-size: 28px; font-weight: 700;
+color: var(–dark);
+}
+.exp-age {
+font-size: 16px; font-weight: 400;
+color: var(–muted);
+font-family: ‘Noto Sans KR’, sans-serif;
+}
 
-  .exp-card-top {
-    display: flex; align-items: baseline; gap: 10px;
-    margin-bottom: 22px;
-    padding-bottom: 18px;
-    border-bottom: 1.5px solid #E8EEFF;
-  }
-  .exp-nickname {
-    font-family: 'Gmarket Sans', sans-serif;
-    font-size: 28px; font-weight: 700;
-    color: var(--dark);
-  }
-  .exp-age {
-    font-size: 16px; font-weight: 400;
-    color: var(--muted);
-    font-family: 'Noto Sans KR', sans-serif;
-  }
+.exp-section {
+padding: 16px 0;
+border-bottom: 1px solid #F0F7FF;
+}
+.exp-section:last-of-type { border-bottom: none; }
+.exp-section-label {
+font-size: 11px; font-weight: 700;
+color: #2563EB;
+letter-spacing: 0.07em;
+text-transform: uppercase;
+margin-bottom: 10px;
+}
+.exp-animal {
+font-size: 20px; font-weight: 700;
+color: var(–dark);
+}
+.exp-tags-row {
+display: flex; flex-wrap: wrap; gap: 7px;
+}
+.exp-tag {
+background: #EDE9FE;
+color: #7C3AED;
+border-radius: 99px;
+padding: 6px 14px;
+font-size: 13px; font-weight: 500;
+}
+.exp-freetext {
+font-size: 14px;
+color: var(–text);
+line-height: 1.8;
+word-break: keep-all;
+}
 
-  .exp-section {
-    padding: 16px 0;
-    border-bottom: 1px solid #F0F7FF;
-  }
-  .exp-section:last-of-type { border-bottom: none; }
-  .exp-section-label {
-    font-size: 11px; font-weight: 700;
-    color: #2563EB;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .exp-animal {
-    font-size: 20px; font-weight: 700;
-    color: var(--dark);
-  }
-  .exp-tags-row {
-    display: flex; flex-wrap: wrap; gap: 7px;
-  }
-  .exp-tag {
-    background: #EDE9FE;
-    color: #7C3AED;
-    border-radius: 99px;
-    padding: 6px 14px;
-    font-size: 13px; font-weight: 500;
-  }
-  .exp-freetext {
-    font-size: 14px;
-    color: var(--text);
-    line-height: 1.8;
-    word-break: keep-all;
-  }
+.exp-insta-section {
+margin-top: auto;
+padding-top: 14px;
+padding-bottom: 6px;
+border-top: 1.5px solid #EFF6FF;
+}
+.exp-unlock-inline {
+width: 100%;
+padding: 15px;
+border-radius: var(–radius);
+border: none;
+background: linear-gradient(135deg, #2563EB, #3B82F6);
+color: white;
+font-size: 15px; font-weight: 700;
+font-family: ‘Gmarket Sans’, sans-serif;
+cursor: pointer;
+box-shadow: 0 6px 20px rgba(37,99,235,0.3);
+transition: transform 0.15s;
+}
+.exp-unlock-inline:hover { transform: translateY(-1px); }
 
-  .exp-insta-section {
-    margin-top: auto;
-    padding-top: 14px;
-    padding-bottom: 6px;
-    border-top: 1.5px solid #EFF6FF;
-  }
-  .exp-unlock-inline {
-    width: 100%;
-    padding: 15px;
-    border-radius: var(--radius);
-    border: none;
-    background: linear-gradient(135deg, #2563EB, #3B82F6);
-    color: white;
-    font-size: 15px; font-weight: 700;
-    font-family: 'Gmarket Sans', sans-serif;
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(37,99,235,0.3);
-    transition: transform 0.15s;
-  }
-  .exp-unlock-inline:hover { transform: translateY(-1px); }
+.exp-insta-revealed {
+display: flex; align-items: center; gap: 10px;
+background: #EDE9FE;
+border-radius: var(–radius-sm);
+padding: 14px 16px;
+}
+.exp-insta-id {
+font-size: 16px; font-weight: 700;
+color: #2563EB;
+}
 
-  .exp-insta-revealed {
-    display: flex; align-items: center; gap: 10px;
-    background: #EDE9FE;
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-  }
-  .exp-insta-id {
-    font-size: 16px; font-weight: 700;
-    color: #2563EB;
-  }
+/* ── 텍스트형 내 프로필 카드 ── */
+.myp-text-card {
+width: 100%;
+background: white;
+border-radius: 24px;
+border: 1.5px solid #DBEAFE;
+padding: 28px 20px 24px;
+display: flex; flex-direction: column;
+align-items: center; gap: 12px;
+position: relative;
+margin-bottom: 14px;
+box-shadow: 0 8px 30px rgba(37,99,235,0.1);
+}
+.myp-avatar {
+width: 80px; height: 80px;
+border-radius: 50%;
+background: linear-gradient(135deg, #2563EB, #3B82F6);
+display: flex; align-items: center; justify-content: center;
+font-size: 32px;
+}
+.myp-preview-name {
+font-family: ‘Gmarket Sans’, sans-serif;
+font-size: 20px; font-weight: 700; color: var(–dark);
+}
+.myp-preview-bio { font-size: 13px; color: var(–muted); text-align: center; }
+.myp-preview-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.myp-preview-tags .ptag-dark {
+background: var(–pink-pale); color: var(–pink);
+border-radius: 99px; padding: 4px 12px; font-size: 12px; font-weight: 500;
+}
+.myp-live-badge {
+position: absolute; top: 14px; right: 14px;
+background: rgba(46,204,113,0.15);
+color: #059669; font-size: 11px; font-weight: 700;
+padding: 4px 10px; border-radius: 99px;
+border: 1px solid rgba(46,204,113,0.3);
+}
 
-  /* ── 텍스트형 내 프로필 카드 ── */
-  .myp-text-card {
-    width: 100%;
-    background: white;
-    border-radius: 24px;
-    border: 1.5px solid #DBEAFE;
-    padding: 28px 20px 24px;
-    display: flex; flex-direction: column;
-    align-items: center; gap: 12px;
-    position: relative;
-    margin-bottom: 14px;
-    box-shadow: 0 8px 30px rgba(37,99,235,0.1);
-  }
-  .myp-avatar {
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #2563EB, #3B82F6);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 32px;
-  }
-  .myp-preview-name {
-    font-family: 'Gmarket Sans', sans-serif;
-    font-size: 20px; font-weight: 700; color: var(--dark);
-  }
-  .myp-preview-bio { font-size: 13px; color: var(--muted); text-align: center; }
-  .myp-preview-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
-  .myp-preview-tags .ptag-dark {
-    background: var(--pink-pale); color: var(--pink);
-    border-radius: 99px; padding: 4px 12px; font-size: 12px; font-weight: 500;
-  }
-  .myp-live-badge {
-    position: absolute; top: 14px; right: 14px;
-    background: rgba(46,204,113,0.15);
-    color: #059669; font-size: 11px; font-weight: 700;
-    padding: 4px 10px; border-radius: 99px;
-    border: 1px solid rgba(46,204,113,0.3);
-  }
+/* ── 약관 동의 ── */
+.agree-box {
+background: white;
+border-radius: var(–radius);
+border: 1.5px solid #DBEAFE;
+overflow: hidden;
+}
+.agree-row {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 13px 16px;
+cursor: pointer;
+transition: background 0.15s;
+}
+.agree-row:hover { background: var(–pink-pale); }
+.agree-divider { height: 1px; background: #DBEAFE; margin: 0 16px; }
+.agree-check {
+width: 20px; height: 20px;
+border-radius: 50%;
+border: 2px solid #BFDBFE;
+flex-shrink: 0;
+display: flex; align-items: center; justify-content: center;
+transition: all 0.18s;
+background: white;
+}
+.agree-check.sub { width: 18px; height: 18px; border-radius: 4px; }
+.agree-check.checked {
+background: linear-gradient(135deg,#2563EB,#7C3AED);
+border-color: #7C3AED;
+}
+.agree-check.checked::after {
+content: ‘’;
+display: block;
+width: 5px; height: 9px;
+border: 2px solid white;
+border-top: none; border-left: none;
+transform: rotate(45deg) translateY(-1px);
+}
+.agree-label-all { font-size: 14px; font-weight: 700; color: var(–dark); flex: 1; }
+.agree-label { font-size: 13px; color: var(–text); flex: 1; }
+.agree-detail {
+font-size: 11px;
+color: var(–muted);
+text-decoration: underline;
+cursor: pointer;
+flex-shrink: 0;
+}
+.agree-detail:hover { color: var(–pink); }
+.terms-modal {
+display: none;
+position: absolute;
+inset: 0;
+background: rgba(26,16,32,0.5);
+z-index: 100;
+align-items: flex-end;
+border-radius: 40px;
+overflow: hidden;
+}
+.terms-modal.open { display: flex; }
+.terms-sheet {
+background: white;
+border-radius: 28px 28px 0 0;
+width: 100%;
+max-height: 60%;
+display: flex;
+flex-direction: column;
+}
+.terms-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 20px 20px 14px;
+border-bottom: 1px solid #DBEAFE;
+}
+.terms-title { font-size: 15px; font-weight: 700; color: var(–dark); }
+.terms-close {
+background: none; border: none; font-size: 16px;
+color: var(–muted); cursor: pointer; padding: 4px;
+}
+.terms-body {
+padding: 16px 20px 24px;
+font-size: 12px;
+color: var(–muted);
+line-height: 1.8;
+overflow-y: auto;
+}
+.cta-btn.disabled {
+background: #BFDBFE;
+box-shadow: none;
+cursor: not-allowed;
+transform: none !important;
+}
 
-  /* ── 약관 동의 ── */
-  .agree-box {
-    background: white;
-    border-radius: var(--radius);
-    border: 1.5px solid #DBEAFE;
-    overflow: hidden;
-  }
-  .agree-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 13px 16px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .agree-row:hover { background: var(--pink-pale); }
-  .agree-divider { height: 1px; background: #DBEAFE; margin: 0 16px; }
-  .agree-check {
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    border: 2px solid #BFDBFE;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.18s;
-    background: white;
-  }
-  .agree-check.sub { width: 18px; height: 18px; border-radius: 4px; }
-  .agree-check.checked {
-    background: linear-gradient(135deg,#2563EB,#7C3AED);
-    border-color: #7C3AED;
-  }
-  .agree-check.checked::after {
-    content: '';
-    display: block;
-    width: 5px; height: 9px;
-    border: 2px solid white;
-    border-top: none; border-left: none;
-    transform: rotate(45deg) translateY(-1px);
-  }
-  .agree-label-all { font-size: 14px; font-weight: 700; color: var(--dark); flex: 1; }
-  .agree-label { font-size: 13px; color: var(--text); flex: 1; }
-  .agree-detail {
-    font-size: 11px;
-    color: var(--muted);
-    text-decoration: underline;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-  .agree-detail:hover { color: var(--pink); }
-  .terms-modal {
-    display: none;
-    position: absolute;
-    inset: 0;
-    background: rgba(26,16,32,0.5);
-    z-index: 100;
-    align-items: flex-end;
-    border-radius: 40px;
-    overflow: hidden;
-  }
-  .terms-modal.open { display: flex; }
-  .terms-sheet {
-    background: white;
-    border-radius: 28px 28px 0 0;
-    width: 100%;
-    max-height: 60%;
-    display: flex;
-    flex-direction: column;
-  }
-  .terms-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 20px 14px;
-    border-bottom: 1px solid #DBEAFE;
-  }
-  .terms-title { font-size: 15px; font-weight: 700; color: var(--dark); }
-  .terms-close {
-    background: none; border: none; font-size: 16px;
-    color: var(--muted); cursor: pointer; padding: 4px;
-  }
-  .terms-body {
-    padding: 16px 20px 24px;
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.8;
-    overflow-y: auto;
-  }
-  .cta-btn.disabled {
-    background: #BFDBFE;
-    box-shadow: none;
-    cursor: not-allowed;
-    transform: none !important;
-  }
+/* 토스트 */
+.toast {
+position: fixed;
+bottom: 40px;
+left: 50%;
+transform: translateX(-50%) translateY(20px);
+background: var(–dark);
+color: white;
+padding: 12px 24px;
+border-radius: 99px;
+font-size: 14px;
+font-weight: 500;
+opacity: 0;
+transition: all 0.3s;
+pointer-events: none;
+white-space: nowrap;
+z-index: 999;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-  /* 토스트 */
-  .toast {
-    position: fixed;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--dark);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 99px;
-    font-size: 14px;
-    font-weight: 500;
-    opacity: 0;
-    transition: all 0.3s;
-    pointer-events: none;
-    white-space: nowrap;
-    z-index: 999;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* 스크롤바 숨기기 */
+.screen::-webkit-scrollbar { display: none; }
 
-  /* 스크롤바 숨기기 */
-  .screen::-webkit-scrollbar { display: none; }
+/* ── 프로필 등록 온보딩 ── */
+.reg-screen {
+position: fixed;
+inset: 0;
+max-width: 480px;
+margin: 0 auto;
+background: var(–bg);
+z-index: 190;
+display: flex;
+flex-direction: column;
+overflow-y: auto;
+transition: opacity 0.4s, transform 0.4s;
+}
+.reg-screen::-webkit-scrollbar { display: none; }
+.reg-screen.hidden { opacity: 0; transform: scale(0.96); pointer-events: none; }
 
-  /* ── 프로필 등록 온보딩 ── */
-  .reg-screen {
-    position: fixed;
-    inset: 0;
-    max-width: 480px;
-    margin: 0 auto;
-    background: var(--bg);
-    z-index: 190;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    transition: opacity 0.4s, transform 0.4s;
-  }
-  .reg-screen::-webkit-scrollbar { display: none; }
-  .reg-screen.hidden { opacity: 0; transform: scale(0.96); pointer-events: none; }
+.reg-hero {
+background: linear-gradient(160deg, #1E40AF, #7C3AED);
+padding: calc(env(safe-area-inset-top) + 36px) 28px 36px;
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+gap: 10px;
+border-radius: 32px 32px 0 0;
+}
+.reg-hero-emoji { font-size: 52px; }
+.reg-hero-title {
+font-family: ‘Gmarket Sans’, sans-serif;
+font-size: 22px;
+font-weight: 700;
+color: white;
+}
+.reg-hero-sub { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.6; }
 
-  .reg-hero {
-    background: linear-gradient(160deg, #1E40AF, #7C3AED);
-    padding: calc(env(safe-area-inset-top) + 36px) 28px 36px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 10px;
-    border-radius: 32px 32px 0 0;
-  }
-  .reg-hero-emoji { font-size: 52px; }
-  .reg-hero-title {
-    font-family: 'Gmarket Sans', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: white;
-  }
-  .reg-hero-sub { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.6; }
+.reg-notice {
+margin: 20px 20px 0;
+background: white;
+border-radius: var(–radius);
+padding: 16px 18px;
+display: flex;
+gap: 12px;
+align-items: flex-start;
+border: 1.5px solid #DBEAFE;
+}
+.reg-notice-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.reg-notice-text { font-size: 12px; color: var(–text); line-height: 1.7; }
+.reg-notice-text b { color: var(–pink); }
 
-  .reg-notice {
-    margin: 20px 20px 0;
-    background: white;
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    border: 1.5px solid #DBEAFE;
-  }
-  .reg-notice-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
-  .reg-notice-text { font-size: 12px; color: var(--text); line-height: 1.7; }
-  .reg-notice-text b { color: var(--pink); }
+.reg-form { padding: 20px 20px 0; display: flex; flex-direction: column; gap: 14px; }
 
-  .reg-form { padding: 20px 20px 0; display: flex; flex-direction: column; gap: 14px; }
+.reg-ticket-banner {
+background: linear-gradient(135deg, #EDE9FE, #DDD6FE);
+border-radius: var(–radius);
+padding: 16px 18px;
+display: flex;
+align-items: center;
+gap: 12px;
+border: 1.5px solid #60A5FA;
+}
+.reg-ticket-icon { font-size: 28px; }
+.reg-ticket-text { font-size: 13px; color: #1E40AF; line-height: 1.6; }
+.reg-ticket-text b { font-size: 15px; color: #1E3A8A; }
 
+.reg-btns { padding: 16px 20px 32px; display: flex; flex-direction: column; gap: 10px; }
+.reg-btn-skip {
+width: 100%;
+padding: 14px;
+border-radius: var(–radius);
+border: 1.5px solid #BFDBFE;
+background: white;
+color: var(–muted);
+font-size: 14px;
+font-weight: 500;
+font-family: ‘Noto Sans KR’, sans-serif;
+cursor: pointer;
+transition: all 0.15s;
+}
+.reg-btn-skip:hover { border-color: var(–pink); color: var(–pink); }
 
-  .reg-ticket-banner {
-    background: linear-gradient(135deg, #EDE9FE, #DDD6FE);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border: 1.5px solid #60A5FA;
-  }
-  .reg-ticket-icon { font-size: 28px; }
-  .reg-ticket-text { font-size: 13px; color: #1E40AF; line-height: 1.6; }
-  .reg-ticket-text b { font-size: 15px; color: #1E3A8A; }
+/* ── 탐색 화면 ── */
+.explore-bar {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 10px 0 6px;
+gap: 8px;
+}
+.explore-counter {
+font-family: ‘Gmarket Sans’, sans-serif;
+font-size: 15px;
+font-weight: 700;
+color: var(–dark);
+}
+.exp-ctrl-btn {
+padding: 7px 12px;
+border-radius: 99px;
+border: 1.5px solid #BFDBFE;
+background: white;
+font-size: 12px;
+font-weight: 700;
+color: var(–text);
+cursor: pointer;
+transition: all 0.15s;
+white-space: nowrap;
+}
+.exp-ctrl-btn:hover { border-color: #7C3AED; color: #7C3AED; }
 
-  .reg-btns { padding: 16px 20px 32px; display: flex; flex-direction: column; gap: 10px; }
-  .reg-btn-skip {
-    width: 100%;
-    padding: 14px;
-    border-radius: var(--radius);
-    border: 1.5px solid #BFDBFE;
-    background: white;
-    color: var(--muted);
-    font-size: 14px;
-    font-weight: 500;
-    font-family: 'Noto Sans KR', sans-serif;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .reg-btn-skip:hover { border-color: var(--pink); color: var(--pink); }
+.exp-card-wrap {
+position: relative;
+height: calc(100svh - 190px);
+min-height: 500px;
+margin-bottom: 4px;
+}
+.exp-card {
+width: 100%;
+height: 100%;
+border-radius: 24px;
+overflow: hidden;
+position: relative;
+box-shadow: 0 12px 40px rgba(37,99,235,0.12);
+transition: opacity 0.3s, transform 0.3s;
+background: white;
+}
+.exp-card.slide-out-left  { opacity: 0; transform: translateX(-40px); }
+.exp-card.slide-out-right { opacity: 0; transform: translateX(40px); }
+.exp-card.slide-in        { opacity: 0; transform: translateX(0); }
 
-  /* ── 탐색 화면 ── */
-  .explore-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0 6px;
-    gap: 8px;
-  }
-  .explore-counter {
-    font-family: 'Gmarket Sans', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--dark);
-  }
-  .exp-ctrl-btn {
-    padding: 7px 12px;
-    border-radius: 99px;
-    border: 1.5px solid #BFDBFE;
-    background: white;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
-  .exp-ctrl-btn:hover { border-color: #7C3AED; color: #7C3AED; }
+.exp-nav {
+position: absolute;
+top: 50%; transform: translateY(-50%);
+width: 40px; height: 40px;
+border-radius: 50%;
+background: white;
+border: none;
+box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+font-size: 22px;
+cursor: pointer;
+display: flex; align-items: center; justify-content: center;
+transition: transform 0.15s, box-shadow 0.15s;
+color: var(–dark);
+z-index: 5;
+}
+.exp-nav:hover { transform: translateY(-50%) scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+.exp-nav.prev { left: -16px; }
+.exp-nav.next { right: -16px; }
+.exp-nav:disabled { opacity: 0.3; cursor: default; }
+.exp-nav:disabled:hover { transform: translateY(-50%) scale(1); }
 
-  .exp-card-wrap {
-    position: relative;
-    height: calc(100svh - 190px);
-    min-height: 500px;
-    margin-bottom: 4px;
-  }
-  .exp-card {
-    width: 100%;
-    height: 100%;
-    border-radius: 24px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 12px 40px rgba(37,99,235,0.12);
-    transition: opacity 0.3s, transform 0.3s;
-    background: white;
-  }
-  .exp-card.slide-out-left  { opacity: 0; transform: translateX(-40px); }
-  .exp-card.slide-out-right { opacity: 0; transform: translateX(40px); }
-  .exp-card.slide-in        { opacity: 0; transform: translateX(0); }
+.exp-insta-wrap {
+display: flex;
+flex-direction: column;
+gap: 8px;
+margin-bottom: 10px;
+}
+.exp-unlock-btn {
+width: 100%;
+padding: 13px;
+border-radius: var(–radius);
+border: none;
+background: linear-gradient(135deg, #2563EB, #3B82F6);
+color: white;
+font-size: 14px;
+font-weight: 700;
+font-family: ‘Gmarket Sans’, sans-serif;
+cursor: pointer;
+box-shadow: 0 6px 18px rgba(255,75,123,0.3);
+transition: transform 0.15s;
+}
+.exp-unlock-btn:hover { transform: translateY(-1px); }
+.exp-unlock-btn.done { background: #2ECC71; box-shadow: none; }
 
-  .exp-nav {
-    position: absolute;
-    top: 50%; transform: translateY(-50%);
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: white;
-    border: none;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.14);
-    font-size: 22px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: transform 0.15s, box-shadow 0.15s;
-    color: var(--dark);
-    z-index: 5;
-  }
-  .exp-nav:hover { transform: translateY(-50%) scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
-  .exp-nav.prev { left: -16px; }
-  .exp-nav.next { right: -16px; }
-  .exp-nav:disabled { opacity: 0.3; cursor: default; }
-  .exp-nav:disabled:hover { transform: translateY(-50%) scale(1); }
-
-  .exp-insta-wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  .exp-unlock-btn {
-    width: 100%;
-    padding: 13px;
-    border-radius: var(--radius);
-    border: none;
-    background: linear-gradient(135deg, #2563EB, #3B82F6);
-    color: white;
-    font-size: 14px;
-    font-weight: 700;
-    font-family: 'Gmarket Sans', sans-serif;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(255,75,123,0.3);
-    transition: transform 0.15s;
-  }
-  .exp-unlock-btn:hover { transform: translateY(-1px); }
-  .exp-unlock-btn.done { background: #2ECC71; box-shadow: none; }
-
-  /* 빈 카드 상태 */
-  .empty-state {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    flex: 1; gap: 12px; text-align: center;
-  }
-  .empty-emoji { font-size: 48px; }
-  .empty-text { font-size: 16px; color: var(--muted); }
+/* 빈 카드 상태 */
+.empty-state {
+display: flex; flex-direction: column; align-items: center; justify-content: center;
+flex: 1; gap: 12px; text-align: center;
+}
+.empty-emoji { font-size: 48px; }
+.empty-text { font-size: 16px; color: var(–muted); }
 </style>
+
 </head>
 <body>
 
 <div class="app">
 
   <!-- 배경 하트 -->
+
   <div class="bg-hearts">
     <!-- 파란 하트 (크게, 왼쪽 상단) -->
     <svg class="bg-heart" style="width:90px;top:4%;left:5%;--rot:-15deg;animation-delay:0s;" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
@@ -1086,160 +1087,172 @@
   </div>
 
   <!-- ───── 로그인 화면 ───── -->
+
   <div class="onboarding" id="login-screen">
 
-    <!-- 떨어지는 하트들 -->
-    <div class="ob-hearts" id="ob-hearts"></div>
+```
+<!-- 떨어지는 하트들 -->
+<div class="ob-hearts" id="ob-hearts"></div>
 
-    <!-- 상단 로고 -->
-    <div class="ob-top">
-      <div class="ob-logo">✨ Spark</div>
-      <p class="ob-sub">사진 없이 진심으로 연결되는 소개팅</p>
-    </div>
+<!-- 상단 로고 -->
+<div class="ob-top">
+  <div class="ob-logo">✨ Spark</div>
+  <p class="ob-sub">사진 없이 진심으로 연결되는 소개팅</p>
+</div>
 
-    <!-- 하단 카드 -->
-    <div class="ob-card">
-      <p style="font-size:15px; font-weight:700; color:var(--dark); text-align:center; margin-bottom:4px;">설레는 만남을 시작해요 💙</p>
-      <p style="font-size:13px; color:var(--muted); text-align:center; margin-bottom:8px;">구글 계정으로 간편하게 시작하세요</p>
+<!-- 하단 카드 -->
+<div class="ob-card">
+  <p style="font-size:15px; font-weight:700; color:var(--dark); text-align:center; margin-bottom:4px;">설레는 만남을 시작해요 💙</p>
+  <p style="font-size:13px; color:var(--muted); text-align:center; margin-bottom:8px;">구글 계정으로 간편하게 시작하세요</p>
 
-      <button class="cta-btn" id="login-btn" onclick="googleLoginFirst()" style="margin-top:0; background: linear-gradient(135deg,#1E40AF,#7C3AED);">
-        <span style="display:flex; align-items:center; justify-content:center; gap:10px;">
-          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#fff" d="M44.5 20H24v8h11.7C34.2 33.6 29.6 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 6 1.1 8.2 3l6-6C34.5 5.1 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.6 0 20-7.7 20-21 0-1.3-.2-2.7-.5-4z"/></svg>
-          Google로 시작하기
-        </span>
-      </button>
+  <button class="cta-btn" id="login-btn" onclick="googleLoginFirst()" style="margin-top:0; background: linear-gradient(135deg,#1E40AF,#7C3AED);">
+    <span style="display:flex; align-items:center; justify-content:center; gap:10px;">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#fff" d="M44.5 20H24v8h11.7C34.2 33.6 29.6 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 6 1.1 8.2 3l6-6C34.5 5.1 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.6 0 20-7.7 20-21 0-1.3-.2-2.7-.5-4z"/></svg>
+      Google로 시작하기
+    </span>
+  </button>
 
-      <p class="ob-notice" style="margin-top:8px;">Spark는 만 20세 이상만 이용 가능합니다.</p>
-    </div>
+  <p class="ob-notice" style="margin-top:8px;">Spark는 만 20세 이상만 이용 가능합니다.</p>
+</div>
+```
+
   </div>
 
   <!-- ───── 온보딩: 성별/나이 확인 ───── -->
+
   <div class="onboarding hidden" id="onboarding" style="display:none;">
 
-    <!-- 떨어지는 하트들 (공유) -->
-    <div class="ob-top">
-      <div class="ob-logo">✨ Spark</div>
-      <p class="ob-sub">거의 다 왔어요!</p>
-    </div>
+```
+<!-- 떨어지는 하트들 (공유) -->
+<div class="ob-top">
+  <div class="ob-logo">✨ Spark</div>
+  <p class="ob-sub">거의 다 왔어요!</p>
+</div>
 
-    <!-- 하단 카드 -->
-    <div class="ob-card">
-      <div>
-        <span class="ob-label">나의 성별</span>
-        <div class="gender-btns" style="margin-bottom:0;">
-          <div class="gender-btn" id="g-male" onclick="selectGender('male')">
-            <span class="g-icon">👨</span>
-            <span class="g-label">남성</span>
-          </div>
-          <div class="gender-btn" id="g-female" onclick="selectGender('female')">
-            <span class="g-icon">👩</span>
-            <span class="g-label">여성</span>
-          </div>
-        </div>
+<!-- 하단 카드 -->
+<div class="ob-card">
+  <div>
+    <span class="ob-label">나의 성별</span>
+    <div class="gender-btns" style="margin-bottom:0;">
+      <div class="gender-btn" id="g-male" onclick="selectGender('male')">
+        <span class="g-icon">👨</span>
+        <span class="g-label">남성</span>
       </div>
-
-      <div>
-        <span class="ob-label">나이</span>
-        <div class="ob-age-wrap">
-          <input class="ob-age-input" id="ob-age" type="number" min="1" max="99" placeholder="나이 입력" oninput="checkAge()">
-        </div>
-        <p class="ob-warn" id="ob-warn"></p>
+      <div class="gender-btn" id="g-female" onclick="selectGender('female')">
+        <span class="g-icon">👩</span>
+        <span class="g-label">여성</span>
       </div>
-
-      <p class="ob-notice">Spark는 만 20세 이상만 이용 가능합니다.<br>안전하고 건전한 만남을 위해 연령을 확인합니다.</p>
-
-      <button class="cta-btn" id="ob-btn" onclick="submitGenderAge()" style="margin-top:0; background: linear-gradient(135deg,#1E40AF,#7C3AED);">완료 →</button>
     </div>
   </div>
 
+  <div>
+    <span class="ob-label">나이</span>
+    <div class="ob-age-wrap">
+      <input class="ob-age-input" id="ob-age" type="number" min="1" max="99" placeholder="나이 입력" oninput="checkAge()">
+    </div>
+    <p class="ob-warn" id="ob-warn"></p>
+  </div>
+
+  <p class="ob-notice">Spark는 만 20세 이상만 이용 가능합니다.<br>안전하고 건전한 만남을 위해 연령을 확인합니다.</p>
+
+  <button class="cta-btn" id="ob-btn" onclick="submitGenderAge()" style="margin-top:0; background: linear-gradient(135deg,#1E40AF,#7C3AED);">완료 →</button>
+</div>
+```
+
+  </div>
+
   <!-- ───── 프로필 등록 화면 ───── -->
+
   <div class="reg-screen" id="reg-screen" style="display:none;">
 
-    <div class="reg-hero">
-      <div class="reg-hero-emoji">💝</div>
-      <div class="reg-hero-title">내 프로필 등록하기</div>
-      <div class="reg-hero-sub">프로필을 등록하면 다른 사람에게 나를 소개할 수 있어요.<br>등록 시 열람권 3개를 드려요!</div>
+```
+<div class="reg-hero">
+  <div class="reg-hero-emoji">💝</div>
+  <div class="reg-hero-title">내 프로필 등록하기</div>
+  <div class="reg-hero-sub">프로필을 등록하면 다른 사람에게 나를 소개할 수 있어요.<br>등록 시 열람권 3개를 드려요!</div>
+</div>
+
+<div class="reg-notice">
+  <span class="reg-notice-icon">📢</span>
+  <p class="reg-notice-text">
+    등록된 프로필(닉네임·나이·태그)은 <b>다른 회원에게 공개</b>될 수 있습니다.<br>
+    인스타그램 아이디는 상대방이 열람권을 사용한 경우에만 공개돼요.
+  </p>
+</div>
+
+<div class="reg-form">
+  <div class="form-field" style="margin:0;">
+    <label class="form-label">닉네임</label>
+    <input class="form-input" type="text" id="reg-name" placeholder="ex) 창천동 오타니" oninput="checkRegForm()">
+  </div>
+  <div class="form-field" style="margin:0;">
+    <label class="form-label">닮은꼴 · 동물상</label>
+    <input class="form-input" type="text" id="reg-animal" placeholder="ex) 🦊 여우상, 차은우">
+  </div>
+  <div class="form-field" style="margin:0;">
+    <label class="form-label">인스타그램 아이디</label>
+    <input class="form-input" type="text" id="reg-insta" placeholder="@instagram_id" oninput="checkRegForm()">
+  </div>
+  <div class="form-field" style="margin:0;">
+    <label class="form-label">한 줄 소개</label>
+    <input class="form-input" type="text" id="reg-bio" placeholder="ex) ENFP, 영화보기, 산책 좋아해요 🎬">
+  </div>
+
+  <div class="form-field" style="margin:0;">
+    <label class="form-label">나를 표현하는 태그</label>
+    <div class="tag-select" id="reg-tags">
+      <div class="tag-opt" onclick="toggleOpt(this)">😊 밝고 활발</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🤫 조용한</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">😂 유머있는</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🎮 게임</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🍳 요리</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">📚 독서</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">⛺ 여행</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🏋️ 운동</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🎵 음악</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🐾 반려동물</div>
     </div>
+  </div>
 
-    <div class="reg-notice">
-      <span class="reg-notice-icon">📢</span>
-      <p class="reg-notice-text">
-        등록된 프로필(닉네임·나이·태그)은 <b>다른 회원에게 공개</b>될 수 있습니다.<br>
-        인스타그램 아이디는 상대방이 열람권을 사용한 경우에만 공개돼요.
-      </p>
+  <div class="reg-ticket-banner">
+    <span class="reg-ticket-icon">🎫</span>
+    <div class="reg-ticket-text">
+      <b>열람권 3개 무료 증정!</b><br>
+      프로필 등록 완료 시 바로 지급돼요.
     </div>
+  </div>
+</div>
 
-    <div class="reg-form">
-      <div class="form-field" style="margin:0;">
-        <label class="form-label">닉네임</label>
-        <input class="form-input" type="text" id="reg-name" placeholder="ex) 창천동 오타니" oninput="checkRegForm()">
-      </div>
-      <div class="form-field" style="margin:0;">
-        <label class="form-label">닮은꼴 · 동물상</label>
-        <input class="form-input" type="text" id="reg-animal" placeholder="ex) 🦊 여우상, 차은우">
-      </div>
-      <div class="form-field" style="margin:0;">
-        <label class="form-label">인스타그램 아이디</label>
-        <input class="form-input" type="text" id="reg-insta" placeholder="@instagram_id" oninput="checkRegForm()">
-      </div>
-      <div class="form-field" style="margin:0;">
-        <label class="form-label">한 줄 소개</label>
-        <input class="form-input" type="text" id="reg-bio" placeholder="ex) ENFP, 영화보기, 산책 좋아해요 🎬">
-      </div>
+<div class="reg-btns">
+  <!-- 약관 동의 -->
+  <div class="agree-box" style="margin-bottom:12px;">
+    <label class="agree-row" id="reg-agree-all-row">
+      <div class="agree-check" id="reg-check-all"></div>
+      <span class="agree-label-all">전체 동의</span>
+    </label>
+    <div class="agree-divider"></div>
+    <label class="agree-row">
+      <div class="agree-check sub" id="reg-check-1"></div>
+      <span class="agree-label">[필수] 개인정보 수집 및 이용 동의</span>
+      <span class="agree-detail" onclick="event.stopPropagation(); showTerms('privacy')">보기</span>
+    </label>
+    <label class="agree-row">
+      <div class="agree-check sub" id="reg-check-2"></div>
+      <span class="agree-label">[필수] 서비스 이용약관 동의</span>
+      <span class="agree-detail" onclick="event.stopPropagation(); showTerms('terms')">보기</span>
+    </label>
+    <label class="agree-row">
+      <div class="agree-check sub" id="reg-check-3"></div>
+      <span class="agree-label">[선택] 마케팅 정보 수신 동의</span>
+      <span class="agree-detail" onclick="event.stopPropagation(); showTerms('marketing')">보기</span>
+    </label>
+  </div>
 
-      <div class="form-field" style="margin:0;">
-        <label class="form-label">나를 표현하는 태그</label>
-        <div class="tag-select" id="reg-tags">
-          <div class="tag-opt" onclick="toggleOpt(this)">😊 밝고 활발</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🤫 조용한</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">😂 유머있는</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🎮 게임</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🍳 요리</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">📚 독서</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">⛺ 여행</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🏋️ 운동</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🎵 음악</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🐾 반려동물</div>
-        </div>
-      </div>
+  <button class="cta-btn" id="reg-submit-btn" onclick="submitRegProfile()" style="margin-top:0;">📤 등록하고 열람권 3개 받기!</button>
+  <button class="reg-btn-skip" onclick="skipReg()">등록없이 구경하기</button>
+</div>
+```
 
-      <div class="reg-ticket-banner">
-        <span class="reg-ticket-icon">🎫</span>
-        <div class="reg-ticket-text">
-          <b>열람권 3개 무료 증정!</b><br>
-          프로필 등록 완료 시 바로 지급돼요.
-        </div>
-      </div>
-    </div>
-
-    <div class="reg-btns">
-      <!-- 약관 동의 -->
-      <div class="agree-box" style="margin-bottom:12px;">
-        <label class="agree-row" id="reg-agree-all-row">
-          <div class="agree-check" id="reg-check-all"></div>
-          <span class="agree-label-all">전체 동의</span>
-        </label>
-        <div class="agree-divider"></div>
-        <label class="agree-row">
-          <div class="agree-check sub" id="reg-check-1"></div>
-          <span class="agree-label">[필수] 개인정보 수집 및 이용 동의</span>
-          <span class="agree-detail" onclick="event.stopPropagation(); showTerms('privacy')">보기</span>
-        </label>
-        <label class="agree-row">
-          <div class="agree-check sub" id="reg-check-2"></div>
-          <span class="agree-label">[필수] 서비스 이용약관 동의</span>
-          <span class="agree-detail" onclick="event.stopPropagation(); showTerms('terms')">보기</span>
-        </label>
-        <label class="agree-row">
-          <div class="agree-check sub" id="reg-check-3"></div>
-          <span class="agree-label">[선택] 마케팅 정보 수신 동의</span>
-          <span class="agree-detail" onclick="event.stopPropagation(); showTerms('marketing')">보기</span>
-        </label>
-      </div>
-
-      <button class="cta-btn" id="reg-submit-btn" onclick="submitRegProfile()" style="margin-top:0;">📤 등록하고 열람권 3개 받기!</button>
-      <button class="reg-btn-skip" onclick="skipReg()">등록없이 구경하기</button>
-    </div>
   </div>
   <div class="topbar">
     <div class="logo">✨ Spark</div>
@@ -1250,6 +1263,7 @@
   </div>
 
   <!-- 탭 -->
+
   <div class="tabbar">
     <div class="tab active" onclick="goScreen('explore')">탐색</div>
     <div class="tab" onclick="goScreen('charge')">충전</div>
@@ -1257,212 +1271,224 @@
   </div>
 
   <!-- ───── 탐색 화면 ───── -->
+
   <div class="screen active" id="screen-explore" style="padding:0;">
 
-    <!-- 프로필 뷰어 -->
-    <div id="panel-profiles" style="display:flex; flex-direction:column; padding:12px 20px 16px; flex:1;">
+```
+<!-- 프로필 뷰어 -->
+<div id="panel-profiles" style="display:flex; flex-direction:column; padding:12px 20px 16px; flex:1;">
 
-      <!-- 프로필 카드 -->
-      <div class="exp-card-wrap" id="exp-card-wrap">
-        <div class="exp-card" id="exp-card"></div>
-        <button class="exp-nav prev" id="exp-prev" onclick="prevProfile()">‹</button>
-        <button class="exp-nav next" id="exp-next" onclick="nextProfile()">›</button>
-      </div>
+  <!-- 프로필 카드 -->
+  <div class="exp-card-wrap" id="exp-card-wrap">
+    <div class="exp-card" id="exp-card"></div>
+    <button class="exp-nav prev" id="exp-prev" onclick="prevProfile()">‹</button>
+    <button class="exp-nav next" id="exp-next" onclick="nextProfile()">›</button>
+  </div>
 
-      <!-- 컨트롤 바 -->
-      <div class="explore-bar">
-        <button class="exp-ctrl-btn" onclick="goFirstProfile()">⏮ 처음으로</button>
-        <div class="explore-counter">
-          <span id="exp-current">1</span> / <span id="exp-total">10</span>
-        </div>
-        <button class="exp-ctrl-btn" onclick="shuffleProfiles()">🔀 랜덤</button>
-      </div>
-
+  <!-- 컨트롤 바 -->
+  <div class="explore-bar">
+    <button class="exp-ctrl-btn" onclick="goFirstProfile()">⏮ 처음으로</button>
+    <div class="explore-counter">
+      <span id="exp-current">1</span> / <span id="exp-total">10</span>
     </div>
+    <button class="exp-ctrl-btn" onclick="shuffleProfiles()">🔀 랜덤</button>
+  </div>
+
+</div>
+```
 
   </div>
 
   <!-- ───── 화면 4: 충전 ───── -->
+
   <div class="screen" id="screen-charge">
     <p class="section-title">🎫 열람권 충전</p>
     <p class="section-sub" style="margin-bottom:14px;">열람권으로 마음에 드는 사람의 인스타 아이디를 확인해보세요.</p>
 
-    <div class="charge-cards" style="margin-bottom:12px;">
-      <div class="charge-card" onclick="selectCharge(this, 1)">
-        <div class="charge-card-left">
-          <span class="charge-icon">🎫</span>
-          <div>
-            <div class="charge-name">열람권 1개</div>
-            <div class="charge-tickets">열람권 1개 사용</div>
-          </div>
-        </div>
-        <div class="charge-price">600원</div>
-      </div>
-      <div class="charge-card" onclick="selectCharge(this, 3)">
-        <div class="charge-card-left">
-          <span class="charge-icon">🎟️</span>
-          <div>
-            <div class="charge-name">열람권 3개 <span class="badge-best">인기</span></div>
-            <div class="charge-tickets">열람권 3개 사용</div>
-          </div>
-        </div>
-        <div class="charge-price">1,700원</div>
-      </div>
-      <div class="charge-card" onclick="selectCharge(this, 10)">
-        <div class="charge-card-left">
-          <span class="charge-icon">💎</span>
-          <div>
-            <div class="charge-name">열람권 10개 <span class="badge-best">최고 혜택</span></div>
-            <div class="charge-tickets">열람권 10개 사용</div>
-          </div>
-        </div>
-        <div class="charge-price">4,200원</div>
+```
+<div class="charge-cards" style="margin-bottom:12px;">
+  <div class="charge-card" onclick="selectCharge(this, 1)">
+    <div class="charge-card-left">
+      <span class="charge-icon">🎫</span>
+      <div>
+        <div class="charge-name">열람권 1개</div>
+        <div class="charge-tickets">열람권 1개 사용</div>
       </div>
     </div>
-
-    <div style="background: white; border-radius: var(--radius); padding: 12px 16px; border: 1.5px solid #DBEAFE; margin-bottom: 14px; font-size: 13px; color: var(--muted); line-height: 1.7;">
-      💳 실제 결제는 연동 시 활성화됩니다.<br>지금은 시뮬레이션으로 열람권이 추가돼요.
+    <div class="charge-price">600원</div>
+  </div>
+  <div class="charge-card" onclick="selectCharge(this, 3)">
+    <div class="charge-card-left">
+      <span class="charge-icon">🎟️</span>
+      <div>
+        <div class="charge-name">열람권 3개 <span class="badge-best">인기</span></div>
+        <div class="charge-tickets">열람권 3개 사용</div>
+      </div>
     </div>
+    <div class="charge-price">1,700원</div>
+  </div>
+  <div class="charge-card" onclick="selectCharge(this, 10)">
+    <div class="charge-card-left">
+      <span class="charge-icon">💎</span>
+      <div>
+        <div class="charge-name">열람권 10개 <span class="badge-best">최고 혜택</span></div>
+        <div class="charge-tickets">열람권 10개 사용</div>
+      </div>
+    </div>
+    <div class="charge-price">4,200원</div>
+  </div>
+</div>
 
-    <button class="cta-btn" style="margin-top:0;" onclick="chargeTickets()">선택한 열람권 결제하기</button>
+<div style="background: white; border-radius: var(--radius); padding: 12px 16px; border: 1.5px solid #DBEAFE; margin-bottom: 14px; font-size: 13px; color: var(--muted); line-height: 1.7;">
+  💳 실제 결제는 연동 시 활성화됩니다.<br>지금은 시뮬레이션으로 열람권이 추가돼요.
+</div>
+
+<button class="cta-btn" style="margin-top:0;" onclick="chargeTickets()">선택한 열람권 결제하기</button>
+```
+
   </div>
 
   <!-- ───── 내 프로필 탭 ───── -->
+
   <div class="screen" id="screen-myprofile">
 
-    <!-- ① 등록 전: 폼 패널 -->
-    <div id="myp-form-panel">
-      <!-- 열람권 배너 -->
-      <div class="reg-ticket-banner" style="margin-bottom:16px;">
-        <span class="reg-ticket-icon">🎫</span>
-        <div class="reg-ticket-text">
-          <b>열람권 3개 무료 증정!</b><br>
-          프로필 등록 완료 시 바로 지급돼요.
-        </div>
-      </div>
-
-      <!-- 공개 안내 -->
-      <div class="reg-notice" style="margin:0 0 16px;">
-        <span class="reg-notice-icon">📢</span>
-        <p class="reg-notice-text">
-          등록된 프로필(닉네임·나이·태그)은 <b>다른 회원에게 공개</b>될 수 있습니다.<br>
-          인스타그램 아이디는 상대방이 열람권을 사용한 경우에만 공개돼요.
-        </p>
-      </div>
-
-      <div class="form-field">
-        <label class="form-label">닉네임</label>
-        <input class="form-input" type="text" placeholder="ex) 창천동 오타니" id="f-name">
-      </div>
-      <div class="form-field">
-        <label class="form-label">닮은꼴 · 동물상</label>
-        <input class="form-input" type="text" placeholder="ex) 🦊 여우상, 차은우" id="f-animal">
-      </div>
-      <div class="form-field">
-        <label class="form-label">나이</label>
-        <input class="form-input" type="number" placeholder="나이" id="f-age">
-      </div>
-      <div class="form-field">
-        <label class="form-label">인스타그램 아이디</label>
-        <input class="form-input" type="text" placeholder="@instagram_id" id="f-insta">
-      </div>
-      <div class="form-field">
-        <label class="form-label">한 줄 소개</label>
-        <input class="form-input" type="text" placeholder="ex) ENFP, 영화보기, 산책 좋아해요 🎬" id="f-bio">
-      </div>
-      <div class="form-field">
-        <label class="form-label">나를 표현하는 태그</label>
-        <div class="tag-select">
-          <div class="tag-opt" onclick="toggleOpt(this)">😊 밝고 활발</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🤫 조용한</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">😂 유머있는</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🎮 게임</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🍳 요리</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">📚 독서</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">⛺ 여행</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🏋️ 운동</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🎵 음악</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🐾 반려동물</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🌅 아침형</div>
-          <div class="tag-opt" onclick="toggleOpt(this)">🦉 야행성</div>
-        </div>
-      </div>
-
-      <div style="height: 16px;"></div>
-
-      <!-- 약관 동의 -->
-      <div class="agree-box">
-        <label class="agree-row" id="agree-all-row">
-          <div class="agree-check" id="check-all"></div>
-          <span class="agree-label-all">전체 동의</span>
-        </label>
-        <div class="agree-divider"></div>
-        <label class="agree-row">
-          <div class="agree-check sub" id="check-1"></div>
-          <span class="agree-label">[필수] 개인정보 수집 및 이용 동의</span>
-          <span class="agree-detail" onclick="event.stopPropagation(); showTerms('privacy')">보기</span>
-        </label>
-        <label class="agree-row">
-          <div class="agree-check sub" id="check-2"></div>
-          <span class="agree-label">[필수] 서비스 이용약관 동의</span>
-          <span class="agree-detail" onclick="event.stopPropagation(); showTerms('terms')">보기</span>
-        </label>
-        <label class="agree-row">
-          <div class="agree-check sub" id="check-3"></div>
-          <span class="agree-label">[선택] 마케팅 정보 수신 동의</span>
-          <span class="agree-detail" onclick="event.stopPropagation(); showTerms('marketing')">보기</span>
-        </label>
-      </div>
-
-      <div style="height: 12px;"></div>
-      <button class="cta-btn" id="save-btn" onclick="saveProfile()">🎫 등록하고 열람권 3개 받기!</button>
-      <div style="height: 24px;"></div>
+```
+<!-- ① 등록 전: 폼 패널 -->
+<div id="myp-form-panel">
+  <!-- 열람권 배너 -->
+  <div class="reg-ticket-banner" style="margin-bottom:16px;">
+    <span class="reg-ticket-icon">🎫</span>
+    <div class="reg-ticket-text">
+      <b>열람권 3개 무료 증정!</b><br>
+      프로필 등록 완료 시 바로 지급돼요.
     </div>
+  </div>
 
-    <!-- ② 등록 완료 패널 -->
-    <div id="myp-done-panel" style="display:none; flex-direction:column; align-items:center; padding-top:20px;">
+  <!-- 공개 안내 -->
+  <div class="reg-notice" style="margin:0 0 16px;">
+    <span class="reg-notice-icon">📢</span>
+    <p class="reg-notice-text">
+      등록된 프로필(닉네임·나이·태그)은 <b>다른 회원에게 공개</b>될 수 있습니다.<br>
+      인스타그램 아이디는 상대방이 열람권을 사용한 경우에만 공개돼요.
+    </p>
+  </div>
 
-      <!-- 프로필 카드 미리보기 (텍스트형) -->
-      <div class="myp-text-card" id="myp-preview-card">
-        <div class="myp-live-badge">● 피드에 노출 중</div>
-        <div class="myp-avatar" id="myp-avatar">✨</div>
-        <div class="myp-preview-name" id="myp-preview-name">이름 · 나이</div>
-        <div class="myp-preview-bio" id="myp-preview-bio"></div>
-        <div class="myp-preview-tags" id="myp-preview-tags"></div>
-      </div>
-
-      <!-- 열람권 지급 배너 -->
-      <div class="myp-reward-box" id="myp-reward-box">
-        <span style="font-size:28px;">🎫</span>
-        <div>
-          <div style="font-family:'Gmarket Sans',sans-serif; font-weight:700; font-size:16px; color:#1E3A8A;">열람권 3개 지급 완료!</div>
-          <div style="font-size:12px; color:#1E40AF; margin-top:2px;">프로필 등록 보상이에요 ✨</div>
-        </div>
-      </div>
-
-      <div style="width:100%; margin-top:16px;">
-        <p style="font-size:12px; color:var(--muted); text-align:center; margin-bottom:12px;">프로필 정보 수정이 필요하면 다시 등록해주세요.</p>
-        <button class="reg-btn-skip" style="width:100%;" onclick="resetProfile()">✏️ 프로필 다시 등록하기</button>
-      </div>
-
-      <div style="height:24px;"></div>
+  <div class="form-field">
+    <label class="form-label">닉네임</label>
+    <input class="form-input" type="text" placeholder="ex) 창천동 오타니" id="f-name">
+  </div>
+  <div class="form-field">
+    <label class="form-label">닮은꼴 · 동물상</label>
+    <input class="form-input" type="text" placeholder="ex) 🦊 여우상, 차은우" id="f-animal">
+  </div>
+  <div class="form-field">
+    <label class="form-label">나이</label>
+    <input class="form-input" type="number" placeholder="나이" id="f-age">
+  </div>
+  <div class="form-field">
+    <label class="form-label">인스타그램 아이디</label>
+    <input class="form-input" type="text" placeholder="@instagram_id" id="f-insta">
+  </div>
+  <div class="form-field">
+    <label class="form-label">한 줄 소개</label>
+    <input class="form-input" type="text" placeholder="ex) ENFP, 영화보기, 산책 좋아해요 🎬" id="f-bio">
+  </div>
+  <div class="form-field">
+    <label class="form-label">나를 표현하는 태그</label>
+    <div class="tag-select">
+      <div class="tag-opt" onclick="toggleOpt(this)">😊 밝고 활발</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🤫 조용한</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">😂 유머있는</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🎮 게임</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🍳 요리</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">📚 독서</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">⛺ 여행</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🏋️ 운동</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🎵 음악</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🐾 반려동물</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🌅 아침형</div>
+      <div class="tag-opt" onclick="toggleOpt(this)">🦉 야행성</div>
     </div>
+  </div>
 
-    <!-- 약관 팝업 -->
-    <div class="terms-modal" id="terms-modal" onclick="closeTerms()">
-      <div class="terms-sheet" onclick="event.stopPropagation()">
-        <div class="terms-header">
-          <span class="terms-title" id="terms-title"></span>
-          <button class="terms-close" onclick="closeTerms()">✕</button>
-        </div>
-        <div class="terms-body" id="terms-body"></div>
-      </div>
+  <div style="height: 16px;"></div>
+
+  <!-- 약관 동의 -->
+  <div class="agree-box">
+    <label class="agree-row" id="agree-all-row">
+      <div class="agree-check" id="check-all"></div>
+      <span class="agree-label-all">전체 동의</span>
+    </label>
+    <div class="agree-divider"></div>
+    <label class="agree-row">
+      <div class="agree-check sub" id="check-1"></div>
+      <span class="agree-label">[필수] 개인정보 수집 및 이용 동의</span>
+      <span class="agree-detail" onclick="event.stopPropagation(); showTerms('privacy')">보기</span>
+    </label>
+    <label class="agree-row">
+      <div class="agree-check sub" id="check-2"></div>
+      <span class="agree-label">[필수] 서비스 이용약관 동의</span>
+      <span class="agree-detail" onclick="event.stopPropagation(); showTerms('terms')">보기</span>
+    </label>
+    <label class="agree-row">
+      <div class="agree-check sub" id="check-3"></div>
+      <span class="agree-label">[선택] 마케팅 정보 수신 동의</span>
+      <span class="agree-detail" onclick="event.stopPropagation(); showTerms('marketing')">보기</span>
+    </label>
+  </div>
+
+  <div style="height: 12px;"></div>
+  <button class="cta-btn" id="save-btn" onclick="saveProfile()">🎫 등록하고 열람권 3개 받기!</button>
+  <div style="height: 24px;"></div>
+</div>
+
+<!-- ② 등록 완료 패널 -->
+<div id="myp-done-panel" style="display:none; flex-direction:column; align-items:center; padding-top:20px;">
+
+  <!-- 프로필 카드 미리보기 (텍스트형) -->
+  <div class="myp-text-card" id="myp-preview-card">
+    <div class="myp-live-badge">● 피드에 노출 중</div>
+    <div class="myp-avatar" id="myp-avatar">✨</div>
+    <div class="myp-preview-name" id="myp-preview-name">이름 · 나이</div>
+    <div class="myp-preview-bio" id="myp-preview-bio"></div>
+    <div class="myp-preview-tags" id="myp-preview-tags"></div>
+  </div>
+
+  <!-- 열람권 지급 배너 -->
+  <div class="myp-reward-box" id="myp-reward-box">
+    <span style="font-size:28px;">🎫</span>
+    <div>
+      <div style="font-family:'Gmarket Sans',sans-serif; font-weight:700; font-size:16px; color:#1E3A8A;">열람권 3개 지급 완료!</div>
+      <div style="font-size:12px; color:#1E40AF; margin-top:2px;">프로필 등록 보상이에요 ✨</div>
     </div>
+  </div>
+
+  <div style="width:100%; margin-top:16px;">
+    <p style="font-size:12px; color:var(--muted); text-align:center; margin-bottom:12px;">프로필 정보 수정이 필요하면 다시 등록해주세요.</p>
+    <button class="reg-btn-skip" style="width:100%;" onclick="resetProfile()">✏️ 프로필 다시 등록하기</button>
+  </div>
+
+  <div style="height:24px;"></div>
+</div>
+
+<!-- 약관 팝업 -->
+<div class="terms-modal" id="terms-modal" onclick="closeTerms()">
+  <div class="terms-sheet" onclick="event.stopPropagation()">
+    <div class="terms-header">
+      <span class="terms-title" id="terms-title"></span>
+      <button class="terms-close" onclick="closeTerms()">✕</button>
+    </div>
+    <div class="terms-body" id="terms-body"></div>
+  </div>
+</div>
+```
+
   </div>
 
 </div>
 
 <!-- 토스트 -->
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1498,7 +1524,8 @@ function goScreen(id) {
   target.classList.add('active');
   if (id === 'explore') {
     target.style.display = 'flex';
-    initExplore(); // 탐색 탭 진입 시 프로필 새로 불러오기
+    // 프로필이 없을 때만 다시 불러오기 (매번 초기화 방지)
+    if (expProfiles.length === 0) initExplore();
   }
   const tabMap = { explore: 0, charge: 1, myprofile: 2 };
   const tabs = document.querySelectorAll('.tab');
@@ -1520,6 +1547,12 @@ async function initExplore() {
   expIdx = 0;
   expUnlocked = {};
 
+  // 로딩 표시
+  const card = document.getElementById('exp-card');
+  if (card) {
+    card.innerHTML = '<div class="exp-text-card" style="align-items:center;justify-content:center;"><div style="color:var(--muted);font-size:14px;">프로필 불러오는 중...</div></div>';
+  }
+
   if (window.currentUser && window.db) {
     try {
       await waitForFirebase();
@@ -1533,13 +1566,19 @@ async function initExplore() {
           window.fbWhere('active', '==', true)
         );
         const snapshot = await window.fbGetDocs(q);
-        const loaded = snapshot.docs
+        const loaded   = snapshot.docs
           .map(d => d.data())
           .filter(p => p.uid !== window.currentUser.uid);
+
         if (loaded.length > 0) {
           expProfiles = loaded;
           renderExpCard(true);
           setupSwipe();
+          return;
+        } else {
+          // Firestore에 데이터 있지만 반대 성별 프로필 없음
+          if (card) card.innerHTML = '<div class="exp-text-card" style="align-items:center;justify-content:center;gap:12px;"><div style="font-size:40px;">🔍</div><div style="color:var(--muted);font-size:14px;text-align:center;">아직 등록된 프로필이 없어요.<br>조금만 기다려주세요!</div></div>';
+          expProfiles = [];
           return;
         }
       }
@@ -1547,7 +1586,8 @@ async function initExplore() {
       console.error('프로필 불러오기 실패:', e);
     }
   }
-  // 데이터 없으면 더미 사용
+
+  // 비로그인이거나 오류 → 더미 데이터
   expProfiles = [...allProfiles];
   renderExpCard(true);
   setupSwipe();
@@ -1885,7 +1925,9 @@ function hideScreen(id) {
 function showScreen(id, display='flex') {
   const el = document.getElementById(id);
   el.style.display = display;
-  setTimeout(() => el.classList.remove('hidden'), 10);
+  el.classList.add('hidden');
+  void el.offsetWidth;
+  el.classList.remove('hidden');
 }
 
 // ── 구글 로그인 (첫 화면) ──
@@ -1900,19 +1942,19 @@ async function googleLoginFirst() {
     hideScreen('login-screen');
 
     if (!userSnap.exists()) {
-      // 신규 유저 → 성별/나이 입력
+      // 신규 유저 → 성별/나이 입력 화면
       setTimeout(() => showScreen('onboarding'), 420);
     } else {
-      // 기존 유저 → 바로 앱으로
+      // 기존 유저 → 열람권·프로필 복원 후 앱으로
       const data = userSnap.data();
       tickets = data.tickets ?? 3;
       updateTicketBadge();
       await loadMyProfile(user.uid);
       showToast('👋 돌아오셨군요!');
-      await initExplore();
+      setTimeout(() => initExplore(), 420);
     }
   } catch(e) {
-    console.error(e);
+    console.error('로그인 오류:', e);
     showToast('로그인에 실패했어요. 다시 시도해주세요.');
   }
 }
@@ -1952,9 +1994,9 @@ async function submitGenderAge() {
     tickets = 3;
     updateTicketBadge();
     showToast('🎉 가입을 환영해요!');
-    enterApp();
+    enterApp(); // 프로필 등록 화면으로 (+ initExplore 포함)
   } catch(e) {
-    console.error(e);
+    console.error('유저 저장 오류:', e);
     showToast('오류가 발생했어요. 다시 시도해주세요.');
   }
 }
@@ -2002,11 +2044,13 @@ function checkAge() {
 function enterApp() {
   hideScreen('onboarding');
   setTimeout(() => {
+    initExplore();
     const reg = document.getElementById('reg-screen');
     reg.style.display = 'flex';
     reg.style.flexDirection = 'column';
-    initExplore();
-    setTimeout(() => reg.classList.remove('hidden'), 10);
+    reg.classList.add('hidden'); // 확실히 hidden 추가 후
+    void reg.offsetWidth;        // reflow
+    reg.classList.remove('hidden'); // transition 시작
   }, 420);
 }
 
@@ -2031,15 +2075,44 @@ function checkRegForm() {
   btn.classList.toggle('disabled', !name || !insta || !regAgreeState[1] || !regAgreeState[2]);
 }
 
-function submitRegProfile() {
+async function submitRegProfile() {
   const name  = document.getElementById('reg-name').value.trim();
   const insta = document.getElementById('reg-insta').value.trim();
   if (!regAgreeState[1] || !regAgreeState[2]) { showToast('필수 약관에 동의해주세요!'); return; }
   if (!name || !insta) { showToast('닉네임과 인스타 아이디는 필수예요!'); return; }
-  tickets += 3;
-  updateTicketBadge();
-  closeRegScreen();
-  showToast('🎫 열람권 3개 지급 완료! 환영해요 ✨');
+  const user = window.currentUser;
+  if (!user || !window.db) { showToast('로그인 정보가 없어요. 다시 시도해주세요.'); return; }
+  try {
+    const userSnap = await window.fbGetDoc(window.fbDoc(window.db, 'users', user.uid));
+    const userData = userSnap.exists() ? userSnap.data() : {};
+    const bio      = document.getElementById('reg-bio')?.value.trim() || '';
+    const tags     = [...document.querySelectorAll('#reg-tags .tag-opt.on')].map(t => t.textContent.trim());
+    // profiles 저장
+    await window.fbSetDoc(window.fbDoc(window.db, 'profiles', user.uid), {
+      uid: user.uid,
+      name,
+      insta,
+      bio,
+      tags,
+      animal: '',
+      gender: userData.gender || '',
+      age:    userData.age    || 0,
+      active: true,
+      createdAt: new Date().toISOString()
+    });
+    // users tickets +3
+    await window.fbUpdateDoc(window.fbDoc(window.db, 'users', user.uid), {
+      tickets: window.fbIncrement(3)
+    });
+    tickets += 3;
+    updateTicketBadge();
+    closeRegScreen();
+    showToast('🎫 열람권 3개 지급 완료! 환영해요 ✨');
+    initExplore();
+  } catch(e) {
+    console.error('reg 프로필 저장 실패:', e);
+    showToast('저장 중 오류가 났어요. 다시 시도해주세요.');
+  }
 }
 
 function skipReg() {
@@ -2147,7 +2220,7 @@ async function saveProfile() {
         createdAt: new Date().toISOString(),
         active: true
       });
-      // 열람권 3개 DB에도 반영
+      // 열람권 3개 DB 반영
       await window.fbUpdateDoc(window.fbDoc(window.db, 'users', user.uid), {
         tickets: window.fbIncrement(3)
       });
@@ -2192,54 +2265,87 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
+// ── auth 준비 콜백 (main script에서 처리 — 스코프 문제 해결) ──
+window._handleAuthReady = async function(user) {
+  if (!user) return; // 로그인 안 된 상태 → 로그인 화면 유지
+
+  // login-screen이 보이는 상태일 때만 자동 진입
+  const ls = document.getElementById('login-screen');
+  const isVisible = ls && ls.style.display !== 'none' && !ls.classList.contains('hidden');
+  if (!isVisible) return;
+
+  try {
+    await waitForFirebase();
+    const userSnap = await window.fbGetDoc(window.fbDoc(window.db, 'users', user.uid));
+    if (userSnap.exists()) {
+      // 기존 유저 → 열람권·프로필 복원 후 바로 앱으로
+      const data = userSnap.data();
+      tickets = data.tickets ?? 3;  // ✅ main script 스코프에서 직접 수정
+      updateTicketBadge();
+      await loadMyProfile(user.uid);
+      hideScreen('login-screen');
+      showToast('👋 돌아오셨군요!');
+      setTimeout(() => initExplore(), 420);
+    }
+    // 신규 유저인데 세션이 남아있는 경우 → 로그인 화면 유지 (아무것도 안 함)
+  } catch(e) {
+    console.error('자동 로그인 오류:', e);
+  }
+};
+
 // 초기화
 document.addEventListener('DOMContentLoaded', () => {
   startHearts();
-  // initExplore는 로그인 완료 후 enterApp()에서 호출
 });
 </script>
 
 <!-- ── Firebase ── -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, setDoc, getDocs, query, where, doc, updateDoc, increment, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 
-  const firebaseConfig = {
+<script type="module">
+  import { initializeApp }  from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, setDoc, getDocs, query, where, doc, updateDoc, increment, getDoc }
+    from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+
+  const app  = initializeApp({
     apiKey: "AIzaSyBdrx-PqIUDA3uq0S6nX2b-x-NkC056wLw",
     authDomain: "namu-ab3d9.firebaseapp.com",
     projectId: "namu-ab3d9",
     storageBucket: "namu-ab3d9.firebasestorage.app",
     messagingSenderId: "999833177500",
-    appId: "1:999833177500:web:c7e4e92c267eaeca840c59",
-    measurementId: "G-Y6YS8YWGKH"
-  };
+    appId: "1:999833177500:web:c7e4e92c267eaeca840c59"
+  });
 
-  const app  = initializeApp(firebaseConfig);
   const db   = getFirestore(app);
   const auth = getAuth(app);
 
-  // 전역 노출
-  window.db             = db;
-  window.auth           = auth;
-  window.fbCollection   = collection;
-  window.fbAddDoc       = addDoc;
-  window.fbSetDoc       = setDoc;
-  window.fbGetDocs      = getDocs;
-  window.fbQuery        = query;
-  window.fbWhere        = where;
-  window.fbDoc          = doc;
-  window.fbUpdateDoc    = updateDoc;
-  window.fbIncrement    = increment;
-  window.fbGetDoc       = getDoc;
+  // 전역 노출 (main script에서 window.fb* 로 접근)
+  window.db           = db;
+  window.auth         = auth;
+  window.fbCollection = collection;
+  window.fbAddDoc     = addDoc;
+  window.fbSetDoc     = setDoc;
+  window.fbGetDocs    = getDocs;
+  window.fbQuery      = query;
+  window.fbWhere      = where;
+  window.fbDoc        = doc;
+  window.fbUpdateDoc  = updateDoc;
+  window.fbIncrement  = increment;
+  window.fbGetDoc     = getDoc;
   window.GoogleAuthProvider = GoogleAuthProvider;
   window.signInWithPopup    = signInWithPopup;
 
-  // 로그인 상태 감지 — Firebase 준비 완료 신호
+  // auth 상태 감지 → main script 콜백 호출
   onAuthStateChanged(auth, (user) => {
-    window.currentUser  = user || null;
+    window.currentUser   = user || null;
     window.firebaseReady = true;
+    // main script의 핸들러 호출 (스코프 문제 없이)
+    if (typeof window._handleAuthReady === 'function') {
+      window._handleAuthReady(user);
+    }
   });
 </script>
+
 </body>
 </html>
