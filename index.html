@@ -30,14 +30,14 @@ body {
 font-family: ‘Noto Sans KR’, sans-serif;
 background: var(–bg);
 color: var(–text);
-min-height: 100vh;
+min-height: 100svh;
 }
 
 /* ── 앱 껍데기 (장식용) ── */
 .app {
 width: 100%;
 max-width: 480px;
-min-height: 100vh;
+min-height: 100svh;
 background: var(–bg);
 position: relative;
 margin: 0 auto;
@@ -1086,9 +1086,22 @@ flex: 1; gap: 12px; text-align: center;
     </svg>
   </div>
 
+  <!-- ───── 스플래시 (auth 확인 전) ───── -->
+
+  <div id="splash-screen" style="
+    position: fixed; inset: 0; z-index: 300;
+    background: linear-gradient(160deg, #1E40AF 0%, #2563EB 40%, #7C3AED 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    max-width: 480px; width: 100%; margin: 0 auto;
+    transition: opacity 0.4s;
+  ">
+    <div style="font-family:'Gmarket Sans',sans-serif; font-size:42px; color:white; font-weight:700; letter-spacing:-1px; margin-bottom:16px;">✨ Spark</div>
+    <div style="font-size:14px; color:rgba(255,255,255,0.7);">잠시만요...</div>
+  </div>
+
   <!-- ───── 로그인 화면 ───── -->
 
-  <div class="onboarding" id="login-screen">
+  <div class="onboarding hidden" id="login-screen" style="display:none;">
 
 ```
 <!-- 떨어지는 하트들 -->
@@ -1939,11 +1952,21 @@ async function googleLoginFirst() {
     const user     = result.user;
     const userSnap = await window.fbGetDoc(window.fbDoc(window.db, 'users', user.uid));
 
-    hideScreen('login-screen');
+    // 로그인 화면 숨기기
+    const ls = document.getElementById('login-screen');
+    if (ls) { ls.classList.add('hidden'); setTimeout(() => { ls.style.display = 'none'; }, 400); }
 
     if (!userSnap.exists()) {
       // 신규 유저 → 성별/나이 입력 화면
-      setTimeout(() => showScreen('onboarding'), 420);
+      setTimeout(() => {
+        const ob = document.getElementById('onboarding');
+        if (ob) {
+          ob.style.display = 'flex';
+          ob.classList.add('hidden');
+          void ob.offsetWidth;
+          ob.classList.remove('hidden');
+        }
+      }, 420);
     } else {
       // 기존 유저 → 열람권·프로필 복원 후 앱으로
       const data = userSnap.data();
@@ -2042,15 +2065,20 @@ function checkAge() {
 }
 
 function enterApp() {
-  hideScreen('onboarding');
+  // 온보딩 숨기기
+  const ob = document.getElementById('onboarding');
+  if (ob) { ob.classList.add('hidden'); setTimeout(() => { ob.style.display = 'none'; }, 400); }
+  // 프로필 등록 화면 표시
   setTimeout(() => {
     initExplore();
     const reg = document.getElementById('reg-screen');
-    reg.style.display = 'flex';
-    reg.style.flexDirection = 'column';
-    reg.classList.add('hidden'); // 확실히 hidden 추가 후
-    void reg.offsetWidth;        // reflow
-    reg.classList.remove('hidden'); // transition 시작
+    if (reg) {
+      reg.style.display = 'flex';
+      reg.style.flexDirection = 'column';
+      reg.classList.add('hidden');
+      void reg.offsetWidth;
+      reg.classList.remove('hidden');
+    }
   }, 420);
 }
 
@@ -2280,31 +2308,67 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// ── auth 준비 콜백 (main script에서 처리 — 스코프 문제 해결) ──
+// ── 스플래시 숨기기 헬퍼 ──
+function hideSplash() {
+  const splash = document.getElementById('splash-screen');
+  if (!splash) return;
+  splash.style.opacity = '0';
+  setTimeout(() => { splash.style.display = 'none'; }, 400);
+}
+
+// ── auth 준비 콜백 ──
+// Firebase onAuthStateChanged에서 호출 — 스코프 문제 없이 main script 변수 직접 접근
 window._handleAuthReady = async function(user) {
-  if (!user) return; // 로그인 안 된 상태 → 로그인 화면 유지
+  if (!user) {
+    // 로그인 안 된 상태 → 스플래시 숨기고 로그인 화면 표시
+    hideSplash();
+    setTimeout(() => {
+      const ls = document.getElementById('login-screen');
+      if (ls) {
+        ls.style.display = 'flex';
+        ls.classList.add('hidden');
+        void ls.offsetWidth;
+        ls.classList.remove('hidden');
+      }
+    }, 420);
+    return;
+  }
 
-  // login-screen이 보이는 상태일 때만 자동 진입
-  const ls = document.getElementById('login-screen');
-  const isVisible = ls && ls.style.display !== 'none' && !ls.classList.contains('hidden');
-  if (!isVisible) return;
-
+  // 로그인 된 상태 → Firestore 확인
   try {
     await waitForFirebase();
     const userSnap = await window.fbGetDoc(window.fbDoc(window.db, 'users', user.uid));
-    if (userSnap.exists()) {
+
+    if (!userSnap.exists()) {
+      // 신규 유저 (Auth는 있지만 Firestore에 없음) → 성별/나이 입력
+      hideSplash();
+      setTimeout(() => {
+        const ob = document.getElementById('onboarding');
+        if (ob) {
+          ob.style.display = 'flex';
+          ob.classList.add('hidden');
+          void ob.offsetWidth;
+          ob.classList.remove('hidden');
+        }
+      }, 420);
+    } else {
       // 기존 유저 → 열람권·프로필 복원 후 바로 앱으로
       const data = userSnap.data();
-      tickets = data.tickets ?? 3;  // ✅ main script 스코프에서 직접 수정
+      tickets = data.tickets ?? 3;
       updateTicketBadge();
       await loadMyProfile(user.uid);
-      hideScreen('login-screen');
+      hideSplash();
       showToast('👋 돌아오셨군요!');
       setTimeout(() => initExplore(), 420);
     }
-    // 신규 유저인데 세션이 남아있는 경우 → 로그인 화면 유지 (아무것도 안 함)
   } catch(e) {
     console.error('자동 로그인 오류:', e);
+    // 에러 시 로그인 화면 보여주기
+    hideSplash();
+    setTimeout(() => {
+      const ls = document.getElementById('login-screen');
+      if (ls) { ls.style.display = 'flex'; ls.classList.remove('hidden'); }
+    }, 420);
   }
 };
 
