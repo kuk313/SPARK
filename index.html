@@ -1086,54 +1086,9 @@ flex: 1; gap: 12px; text-align: center;
     </svg>
   </div>
 
-  <!-- ───── 스플래시 (auth 확인 전) ───── -->
-
-  <div id="splash-screen" style="
-    position: fixed; inset: 0; z-index: 300;
-    background: linear-gradient(160deg, #1E40AF 0%, #2563EB 40%, #7C3AED 100%);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    max-width: 480px; width: 100%; margin: 0 auto;
-    transition: opacity 0.4s;
-  ">
-    <div style="font-family:'Gmarket Sans',sans-serif; font-size:42px; color:white; font-weight:700; letter-spacing:-1px; margin-bottom:16px;">✨ Spark</div>
-    <div style="font-size:14px; color:rgba(255,255,255,0.7);">잠시만요...</div>
-  </div>
-
-  <!-- ───── 로그인 화면 ───── -->
-
-  <div class="onboarding hidden" id="login-screen" style="display:none;">
-
-```
-<!-- 떨어지는 하트들 -->
-<div class="ob-hearts" id="ob-hearts"></div>
-
-<!-- 상단 로고 -->
-<div class="ob-top">
-  <div class="ob-logo">✨ Spark</div>
-  <p class="ob-sub">사진 없이 진심으로 연결되는 소개팅</p>
-</div>
-
-<!-- 하단 카드 -->
-<div class="ob-card">
-  <p style="font-size:15px; font-weight:700; color:var(--dark); text-align:center; margin-bottom:4px;">설레는 만남을 시작해요 💙</p>
-  <p style="font-size:13px; color:var(--muted); text-align:center; margin-bottom:8px;">구글 계정으로 간편하게 시작하세요</p>
-
-  <button class="cta-btn" id="login-btn" onclick="googleLoginFirst()" style="margin-top:0; background: linear-gradient(135deg,#1E40AF,#7C3AED);">
-    <span style="display:flex; align-items:center; justify-content:center; gap:10px;">
-      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#fff" d="M44.5 20H24v8h11.7C34.2 33.6 29.6 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 6 1.1 8.2 3l6-6C34.5 5.1 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.6 0 20-7.7 20-21 0-1.3-.2-2.7-.5-4z"/></svg>
-      Google로 시작하기
-    </span>
-  </button>
-
-  <p class="ob-notice" style="margin-top:8px;">Spark는 만 20세 이상만 이용 가능합니다.</p>
-</div>
-```
-
-  </div>
-
   <!-- ───── 온보딩: 성별/나이 확인 ───── -->
 
-  <div class="onboarding hidden" id="onboarding" style="display:none;">
+  <div class="onboarding" id="onboarding">
 
 ```
 <!-- 떨어지는 하트들 (공유) -->
@@ -1556,56 +1511,13 @@ function toggleTag(el) { el.classList.toggle('selected'); }
 function toggleOpt(el)  { el.classList.toggle('on'); }
 
 // ── 탐색 초기화 ──
-async function initExplore() {
+function initExplore() {
+  expProfiles = [...allProfiles];
   expIdx = 0;
   expUnlocked = {};
-
-  // 로딩 표시
-  const card = document.getElementById('exp-card');
-  if (card) {
-    card.innerHTML = '<div class="exp-text-card" style="align-items:center;justify-content:center;"><div style="color:var(--muted);font-size:14px;">프로필 불러오는 중...</div></div>';
-  }
-
-  if (window.currentUser && window.db) {
-    try {
-      await waitForFirebase();
-      const userSnap = await window.fbGetDoc(window.fbDoc(window.db, 'users', window.currentUser.uid));
-      if (userSnap.exists()) {
-        const myGender = userSnap.data().gender;
-        const opposite = myGender === 'male' ? 'female' : 'male';
-        const q = window.fbQuery(
-          window.fbCollection(window.db, 'profiles'),
-          window.fbWhere('gender', '==', opposite),
-          window.fbWhere('active', '==', true)
-        );
-        const snapshot = await window.fbGetDocs(q);
-        const loaded   = snapshot.docs
-          .map(d => d.data())
-          .filter(p => p.uid !== window.currentUser.uid);
-
-        if (loaded.length > 0) {
-          expProfiles = loaded;
-          renderExpCard(true);
-          setupSwipe();
-          return;
-        } else {
-          // Firestore에 데이터 있지만 반대 성별 프로필 없음
-          if (card) card.innerHTML = '<div class="exp-text-card" style="align-items:center;justify-content:center;gap:12px;"><div style="font-size:40px;">🔍</div><div style="color:var(--muted);font-size:14px;text-align:center;">아직 등록된 프로필이 없어요.<br>조금만 기다려주세요!</div></div>';
-          expProfiles = [];
-          return;
-        }
-      }
-    } catch(e) {
-      console.error('프로필 불러오기 실패:', e);
-    }
-  }
-
-  // 비로그인이거나 오류 → 더미 데이터
-  expProfiles = [...allProfiles];
   renderExpCard(true);
   setupSwipe();
 }
-
 // ── 랜덤 ──
 function shuffleProfiles() {
   expProfiles = [...expProfiles].sort(() => Math.random() - 0.5);
@@ -1763,24 +1675,11 @@ function setupSwipe() {
     }
   });
 }
-
-// ── Firestore 열람권 동기화 ──
-async function syncTickets(amount) {
-  if (!window.currentUser || !window.db) return;
-  try {
-    await window.fbUpdateDoc(
-      window.fbDoc(window.db, 'users', window.currentUser.uid),
-      { tickets: window.fbIncrement(amount) }
-    );
-  } catch(e) { console.error('열람권 동기화 실패:', e); }
-}
-
 // ── 탐색: 인스타 잠금 해제 ──
 function expUseTicket() {
   if (tickets < 1) { showToast('열람권이 부족해요 🥲'); goScreen('charge'); return; }
   tickets--;
   updateTicketBadge();
-  syncTickets(-1);
   expUnlocked[expIdx] = true;
   renderExpCard(true);
   launchConfetti();
@@ -1861,7 +1760,6 @@ function chargeTickets() {
   if (!chargeAmount) { showToast('열람권을 선택해주세요!'); return; }
   tickets += chargeAmount;
   updateTicketBadge();
-  syncTickets(chargeAmount);
   showToast(`🎫 열람권 ${chargeAmount}개 충전 완료!`);
   chargeAmount = 0;
   document.querySelectorAll('.charge-card').forEach(c => c.classList.remove('selected'));
@@ -1914,116 +1812,7 @@ function openInsta(id) {
       window.open(webUrl, '_blank');
     }
   }, 1200);
-}
-
-// ── Firebase 준비 대기 헬퍼 ──
-function waitForFirebase() {
-  return new Promise(resolve => {
-    if (window.firebaseReady && window.db) return resolve();
-    const interval = setInterval(() => {
-      if (window.firebaseReady && window.db) {
-        clearInterval(interval);
-        resolve();
-      }
-    }, 100);
-  });
-}
-
-// ── 화면 전환 헬퍼 ──
-function hideScreen(id) {
-  const el = document.getElementById(id);
-  el.classList.add('hidden');
-  setTimeout(() => { el.style.display = 'none'; }, 400);
-}
-function showScreen(id, display='flex') {
-  const el = document.getElementById(id);
-  el.style.display = display;
-  el.classList.add('hidden');
-  void el.offsetWidth;
-  el.classList.remove('hidden');
-}
-
-// ── 구글 로그인 (첫 화면) ──
-async function googleLoginFirst() {
-  try {
-    await waitForFirebase();
-    const provider = new window.GoogleAuthProvider();
-    const result   = await window.signInWithPopup(window.auth, provider);
-    const user     = result.user;
-    const userSnap = await window.fbGetDoc(window.fbDoc(window.db, 'users', user.uid));
-
-    // 로그인 화면 숨기기
-    const ls = document.getElementById('login-screen');
-    if (ls) { ls.classList.add('hidden'); setTimeout(() => { ls.style.display = 'none'; }, 400); }
-
-    if (!userSnap.exists()) {
-      // 신규 유저 → 성별/나이 입력 화면
-      setTimeout(() => {
-        const ob = document.getElementById('onboarding');
-        if (ob) {
-          ob.style.display = 'flex';
-          ob.classList.add('hidden');
-          void ob.offsetWidth;
-          ob.classList.remove('hidden');
-        }
-      }, 420);
-    } else {
-      // 기존 유저 → 열람권·프로필 복원 후 앱으로
-      const data = userSnap.data();
-      tickets = data.tickets ?? 3;
-      updateTicketBadge();
-      await loadMyProfile(user.uid);
-      showToast('👋 돌아오셨군요!');
-      setTimeout(() => initExplore(), 420);
-    }
-  } catch(e) {
-    console.error('로그인 오류:', e);
-    showToast('로그인에 실패했어요. 다시 시도해주세요.');
-  }
-}
-
-// ── 내 프로필 불러오기 ──
-async function loadMyProfile(uid) {
-  try {
-    const profileSnap = await window.fbGetDoc(window.fbDoc(window.db, 'profiles', uid));
-    if (profileSnap.exists()) {
-      const p = profileSnap.data();
-      document.getElementById('myp-avatar').textContent       = p.name?.charAt(0) || '✨';
-      document.getElementById('myp-preview-name').textContent = `${p.name} · ${p.age}세`;
-      document.getElementById('myp-preview-bio').textContent  = p.animal ? `${p.animal}${p.bio ? ' · ' + p.bio : ''}` : p.bio || '';
-      document.getElementById('myp-preview-tags').innerHTML   = (p.tags||[]).map(t=>`<span class="ptag-dark">${t}</span>`).join('');
-      document.getElementById('myp-form-panel').style.display = 'none';
-      document.getElementById('myp-done-panel').style.display = 'flex';
-    }
-  } catch(e) { console.error('프로필 불러오기 실패:', e); }
-}
-
-// ── 성별/나이 제출 (신규 유저) ──
-async function submitGenderAge() {
-  const age = parseInt(document.getElementById('ob-age').value);
-  if (!selectedGender) { document.getElementById('ob-warn').textContent = '성별을 선택해주세요.'; return; }
-  if (!age || age < 20) { document.getElementById('ob-warn').textContent = '만 20세 이상만 이용 가능합니다.'; return; }
-  const user = window.currentUser;
-  if (!user) { showToast('로그인이 필요해요.'); return; }
-  try {
-    await window.fbSetDoc(window.fbDoc(window.db, 'users', user.uid), {
-      uid: user.uid,
-      email: user.email,
-      gender: selectedGender,
-      age: age,
-      tickets: 3,
-      createdAt: new Date().toISOString()
-    });
-    tickets = 3;
-    updateTicketBadge();
-    showToast('🎉 가입을 환영해요!');
-    enterApp(); // 프로필 등록 화면으로 (+ initExplore 포함)
-  } catch(e) {
-    console.error('유저 저장 오류:', e);
-    showToast('오류가 발생했어요. 다시 시도해주세요.');
-  }
-}
-
+}// ── 구글 로그인 (첫 화면) ──// ── 성별/나이 제출 (신규 유저) ──
 // ── 온보딩 ──
 let selectedGender = null;
 
@@ -2065,21 +1854,20 @@ function checkAge() {
 }
 
 function enterApp() {
-  // 온보딩 숨기기
-  const ob = document.getElementById('onboarding');
-  if (ob) { ob.classList.add('hidden'); setTimeout(() => { ob.style.display = 'none'; }, 400); }
-  // 프로필 등록 화면 표시
+  const age = parseInt(document.getElementById('ob-age').value);
+  if (!selectedGender) { document.getElementById('ob-warn').textContent = '성별을 선택해주세요.'; return; }
+  if (!age || age < 20) return;
+  document.getElementById('onboarding').classList.add('hidden');
   setTimeout(() => {
-    initExplore();
+    document.getElementById('onboarding').style.display = 'none';
     const reg = document.getElementById('reg-screen');
-    if (reg) {
-      reg.style.display = 'flex';
-      reg.style.flexDirection = 'column';
-      reg.classList.add('hidden');
-      void reg.offsetWidth;
-      reg.classList.remove('hidden');
-    }
-  }, 420);
+    reg.style.display = 'flex';
+    reg.style.flexDirection = 'column';
+    reg.classList.add('hidden');
+    void reg.offsetWidth;
+    reg.classList.remove('hidden');
+    initExplore();
+  }, 400);
 }
 
 // ── 프로필 저장 ──
@@ -2105,44 +1893,15 @@ function checkRegForm() {
   btn.classList.toggle('disabled', !name || !insta || !regAgreeState[1] || !regAgreeState[2]);
 }
 
-async function submitRegProfile() {
+function submitRegProfile() {
   const name  = document.getElementById('reg-name').value.trim();
   const insta = document.getElementById('reg-insta').value.trim();
   if (!regAgreeState[1] || !regAgreeState[2]) { showToast('필수 약관에 동의해주세요!'); return; }
   if (!name || !insta) { showToast('닉네임과 인스타 아이디는 필수예요!'); return; }
-  const user = window.currentUser;
-  if (!user || !window.db) { showToast('로그인 정보가 없어요. 다시 시도해주세요.'); return; }
-  try {
-    const userSnap = await window.fbGetDoc(window.fbDoc(window.db, 'users', user.uid));
-    const userData = userSnap.exists() ? userSnap.data() : {};
-    const bio      = document.getElementById('reg-bio')?.value.trim() || '';
-    const tags     = [...document.querySelectorAll('#reg-tags .tag-opt.on')].map(t => t.textContent.trim());
-    // profiles 저장
-    await window.fbSetDoc(window.fbDoc(window.db, 'profiles', user.uid), {
-      uid: user.uid,
-      name,
-      insta,
-      bio,
-      tags,
-      animal: '',
-      gender: userData.gender || '',
-      age:    userData.age    || 0,
-      active: true,
-      createdAt: new Date().toISOString()
-    });
-    // users tickets +3
-    await window.fbUpdateDoc(window.fbDoc(window.db, 'users', user.uid), {
-      tickets: window.fbIncrement(3)
-    });
-    tickets += 3;
-    updateTicketBadge();
-    closeRegScreen();
-    showToast('🎫 열람권 3개 지급 완료! 환영해요 ✨');
-    initExplore();
-  } catch(e) {
-    console.error('reg 프로필 저장 실패:', e);
-    showToast('저장 중 오류가 났어요. 다시 시도해주세요.');
-  }
+  tickets += 3;
+  updateTicketBadge();
+  closeRegScreen();
+  showToast('🎫 열람권 3개 지급 완료! 환영해요 ✨');
 }
 
 function skipReg() {
@@ -2176,6 +1935,7 @@ function updateAgreeUI() {
 
 // ── 초기화 (DOMContentLoaded 하나로 통합) ──
 document.addEventListener('DOMContentLoaded', () => {
+  initExplore();
   // 버튼 초기 비활성화
   const obBtn = document.getElementById('ob-btn');
   if (obBtn) obBtn.classList.add('disabled');
@@ -2241,7 +2001,7 @@ function closeTerms() {
 }
 
 // ── 프로필 저장 ──
-async function saveProfile() {
+function saveProfile() {
   const name  = document.getElementById('f-name').value.trim();
   const age   = document.getElementById('f-age').value.trim();
   const insta = document.getElementById('f-insta').value.trim();
@@ -2251,28 +2011,6 @@ async function saveProfile() {
   const animal = document.getElementById('f-animal').value.trim();
   const bio    = document.getElementById('f-bio').value.trim();
   const tags   = [...document.querySelectorAll('#screen-myprofile .tag-opt.on')].map(t => t.textContent);
-  const user   = window.currentUser;
-
-  // Firestore에 프로필 저장
-  if (user) {
-    try {
-      await window.fbSetDoc(window.fbDoc(window.db, 'profiles', user.uid), {
-        uid: user.uid,
-        name, age: parseInt(age), insta, animal, bio, tags,
-        gender: (await window.fbGetDoc(window.fbDoc(window.db, 'users', user.uid))).data()?.gender || '',
-        createdAt: new Date().toISOString(),
-        active: true
-      });
-      // 열람권 3개 DB 반영
-      await window.fbUpdateDoc(window.fbDoc(window.db, 'users', user.uid), {
-        tickets: window.fbIncrement(3)
-      });
-    } catch(e) {
-      console.error('프로필 저장 실패:', e);
-      showToast('저장 중 오류가 발생했어요.');
-      return;
-    }
-  }
 
   tickets += 3;
   updateTicketBadge();
@@ -2281,8 +2019,7 @@ async function saveProfile() {
   document.getElementById('myp-avatar').textContent = name.charAt(0);
   document.getElementById('myp-preview-name').textContent = `${name} · ${age}세`;
   document.getElementById('myp-preview-bio').textContent = animal ? `${animal}${bio ? ' · ' + bio : ''}` : bio || '';
-  const tagsEl = document.getElementById('myp-preview-tags');
-  tagsEl.innerHTML = tags.map(t => `<span class="ptag-dark">${t}</span>`).join('');
+  document.getElementById('myp-preview-tags').innerHTML = tags.map(t => `<span class="ptag-dark">${t}</span>`).join('');
 
   document.getElementById('myp-form-panel').style.display = 'none';
   document.getElementById('myp-done-panel').style.display = 'flex';
@@ -2307,120 +2044,8 @@ function showToast(msg) {
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2500);
 }
-
-// ── 스플래시 숨기기 헬퍼 ──
-function hideSplash() {
-  const splash = document.getElementById('splash-screen');
-  if (!splash) return;
-  splash.style.opacity = '0';
-  setTimeout(() => { splash.style.display = 'none'; }, 400);
-}
-
 // ── auth 준비 콜백 ──
-// Firebase onAuthStateChanged에서 호출 — 스코프 문제 없이 main script 변수 직접 접근
-window._handleAuthReady = async function(user) {
-  if (!user) {
-    // 로그인 안 된 상태 → 스플래시 숨기고 로그인 화면 표시
-    hideSplash();
-    setTimeout(() => {
-      const ls = document.getElementById('login-screen');
-      if (ls) {
-        ls.style.display = 'flex';
-        ls.classList.add('hidden');
-        void ls.offsetWidth;
-        ls.classList.remove('hidden');
-      }
-    }, 420);
-    return;
-  }
 
-  // 로그인 된 상태 → Firestore 확인
-  try {
-    await waitForFirebase();
-    const userSnap = await window.fbGetDoc(window.fbDoc(window.db, 'users', user.uid));
-
-    if (!userSnap.exists()) {
-      // 신규 유저 (Auth는 있지만 Firestore에 없음) → 성별/나이 입력
-      hideSplash();
-      setTimeout(() => {
-        const ob = document.getElementById('onboarding');
-        if (ob) {
-          ob.style.display = 'flex';
-          ob.classList.add('hidden');
-          void ob.offsetWidth;
-          ob.classList.remove('hidden');
-        }
-      }, 420);
-    } else {
-      // 기존 유저 → 열람권·프로필 복원 후 바로 앱으로
-      const data = userSnap.data();
-      tickets = data.tickets ?? 3;
-      updateTicketBadge();
-      await loadMyProfile(user.uid);
-      hideSplash();
-      showToast('👋 돌아오셨군요!');
-      setTimeout(() => initExplore(), 420);
-    }
-  } catch(e) {
-    console.error('자동 로그인 오류:', e);
-    // 에러 시 로그인 화면 보여주기
-    hideSplash();
-    setTimeout(() => {
-      const ls = document.getElementById('login-screen');
-      if (ls) { ls.style.display = 'flex'; ls.classList.remove('hidden'); }
-    }, 420);
-  }
-};
-
-
-</script>
-
-<!-- ── Firebase ── -->
-
-<script type="module">
-  import { initializeApp }  from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, setDoc, getDocs, query, where, doc, updateDoc, increment, getDoc }
-    from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged }
-    from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-
-  const app  = initializeApp({
-    apiKey: "AIzaSyBdrx-PqIUDA3uq0S6nX2b-x-NkC056wLw",
-    authDomain: "namu-ab3d9.firebaseapp.com",
-    projectId: "namu-ab3d9",
-    storageBucket: "namu-ab3d9.firebasestorage.app",
-    messagingSenderId: "999833177500",
-    appId: "1:999833177500:web:c7e4e92c267eaeca840c59"
-  });
-
-  const db   = getFirestore(app);
-  const auth = getAuth(app);
-
-  // 전역 노출 (main script에서 window.fb* 로 접근)
-  window.db           = db;
-  window.auth         = auth;
-  window.fbCollection = collection;
-  window.fbAddDoc     = addDoc;
-  window.fbSetDoc     = setDoc;
-  window.fbGetDocs    = getDocs;
-  window.fbQuery      = query;
-  window.fbWhere      = where;
-  window.fbDoc        = doc;
-  window.fbUpdateDoc  = updateDoc;
-  window.fbIncrement  = increment;
-  window.fbGetDoc     = getDoc;
-  window.GoogleAuthProvider = GoogleAuthProvider;
-  window.signInWithPopup    = signInWithPopup;
-
-  // auth 상태 감지 → main script 콜백 호출
-  onAuthStateChanged(auth, (user) => {
-    window.currentUser   = user || null;
-    window.firebaseReady = true;
-    // main script의 핸들러 호출 (스코프 문제 없이)
-    if (typeof window._handleAuthReady === 'function') {
-      window._handleAuthReady(user);
-    }
-  });
 </script>
 
 </body>
